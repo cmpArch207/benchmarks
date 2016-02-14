@@ -1,0 +1,5 @@
+compile:
+g++ save_rbtree.cc -lboost_serialization -o rbtree
+
+run:
+./rbtree --count 1000
