@@ -1,2 +1,2 @@
-This repository contains the benchmarks for research. Feel free to
-download and modify.
+This repository contains persistent memory microbenchmarks for
+research, developed at UCSC.
