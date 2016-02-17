@@ -15,4 +15,4 @@ Usage examples:
 
 SPS: count 10000 swaps 100
 
-Others: get 100 count 10000
+Others: ops 100 count 10000

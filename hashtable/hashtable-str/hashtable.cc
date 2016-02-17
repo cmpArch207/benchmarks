@@ -142,7 +142,7 @@ int main( int argc, char **argv )
       arr_size = atoi( argv[i+1] );
       ++i;
     }
-    else if ( strncmp( argv[i], "--size", 6 ) == 0 ) 
+    else if ( strncmp( argv[i], "--ops", 5 ) == 0 ) 
     {
       num_iterations = atoi( argv[i+1] );
       ++i;
