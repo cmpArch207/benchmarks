@@ -11,6 +11,7 @@
 #define RAND_SEED 21312309
 #define ITEM_COUNT 1000000
 #define TOTAL_ITERATIONS 1000
+#define PROB 50
 
 extern "C" {
   extern void mcsim_skip_instrs_begin();
