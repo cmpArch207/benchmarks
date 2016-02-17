@@ -1,7 +1,6 @@
 #ifndef _DEFINES_H_
 #define _DEFINES_H_
 
-
 #define KEY_SIZE 25
 #define VALUE_SIZE 2048
 
@@ -11,7 +10,8 @@
 
 #define RAND_SEED 21312309
 #define ITEM_COUNT 1000000
-
+#define TOTAL_ITERATIONS 1000
+#define PROB 50
 
 extern "C" {
   extern void mcsim_skip_instrs_begin();
