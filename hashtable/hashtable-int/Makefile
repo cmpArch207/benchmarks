@@ -29,7 +29,7 @@ $(WRAPPER_OBJ): %.o: %.c
 	gcc -O0 -g -c $< -o $@
 
 $(OBJS): %.o: $(TARGET).cc
-	$(CC) -DPERSISTENT -DREDOLOG -c $(CFLAGS) -c $< -o $@
+	$(CC) -c $(CFLAGS) -c $< -o $@
 
 $(OBJS_REDO): %.o: $(TARGET).cc
 	$(CC) -DPERSISTENT -DREDOLOG -c $(CFLAGS) -c $< -o $@
