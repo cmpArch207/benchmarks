@@ -1,6 +1,8 @@
 #ifndef _DEFINES_H_
 #define _DEFINES_H_
 
+
+#include <map>
 #include "btree.h"
 
 
@@ -14,7 +16,6 @@
 #define ITEM_COUNT 1000000
 #define TOTAL_ITERATIONS 100
 
-
 using namespace std;
 
 extern "C" {
@@ -26,6 +27,7 @@ extern "C" {
   extern void mcsim_tx_end();
   extern void mcsim_log_begin();
   extern void mcsim_log_end(); 
+  extern void mcsim_mem_fence();
 }
 
 template <int _innerslots, int _leafslots>
@@ -63,13 +65,17 @@ struct key_less {
   }
 };
 
+typedef pair <char*, char*> Char_Pair;
+
 typedef stx::btree<char*, char*, std::pair<char*, char*> , struct key_less, struct btree_traits_speed<32,32>, false> btree_impl;
 
 long diff_clocktime(struct timespec *time1, struct timespec *time2);
 
 double bt_put(btree_impl* pbt, unsigned long srand_seed, int value_size, 
 	      int item_count, char* rand_v); 
-double bt_get(btree_impl* pbt, unsigned long srand_seed, int value_size, 
+double bt_get(btree_impl* pbt, 
+	      map<char*, char*>& undolog, map<char*, char*>& redolog,
+	      unsigned long srand_seed, int value_size, 
 	      char* rand_v, int can_find, int index);
 
 #endif // _DEFINE_H_

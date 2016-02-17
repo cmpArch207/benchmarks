@@ -14,8 +14,6 @@
 #include "btree.h"
 #include "defines.h"
 
-using namespace std;
-
 char *rand_str(char *dst, int size) 
 {
   static const char text[] = "abcdefghijklmnopqrstuvwxyz"
@@ -31,7 +29,7 @@ char *rand_str(char *dst, int size)
 
 int main(int argc, char **argv)
 {    
-  //mcsim_skip_instrs_begin();
+  mcsim_skip_instrs_begin();
   if (argc == 1) {
     printf("\n=========== A Simple B-tree Usage ============\n");
     printf("Search for an items in a Btree, \n");
@@ -42,13 +40,13 @@ int main(int argc, char **argv)
     return 0;
   }
 
-  int i, bench = GET_BENCH; 
+  int i, bench = GET_BENCH;
   int value_size = VALUE_SIZE, item_count = ITEM_COUNT;
   int total_iterations = TOTAL_ITERATIONS;
   unsigned long srand_seed = 0;
   double put_time = 0, get_time = 0;
 
-  for (i = 1; i < argc; i++) {
+  for (i = 1; i != argc; ++i) {
     if (strncmp(argv[i], "--get", 5) == 0) {
       bench = GET_BENCH;
       total_iterations = atoi(argv[i+1]);
@@ -67,7 +65,8 @@ int main(int argc, char **argv)
     }
   }         
 
-  btree_impl bt;    
+  btree_impl bt;   
+  map< char*, char* > undolog, redolog;
 
   srand_seed = RAND_SEED;
 
@@ -78,34 +77,41 @@ int main(int argc, char **argv)
   // PUT: build a B-tree  
   put_time += bt_put(&bt, srand_seed, value_size, item_count, rand_v);  
 
-  //printf("PUT %d time: %0.5f us ", item_count, (double)put_time / 1000.0);
-  //printf("Throughput: %0.2f\n", item_count / ((double)put_time / (double)1000000000L));
+  printf("PUT %d time: %0.5f us ", item_count, (double)put_time / 1000.0);
+  printf("Throughput: %0.2f\n", item_count / ((double)put_time / (double)1000000000L));
   if (bench == PUT_BENCH) {
     return 0;
   }  
 
 #ifdef BTREE_DEBUG
   ofstream orig;
-  debugfile1.open ("orig.debug");
+  orig.open ("orig.debug");
   bt.print(orig); 
-  orig.close();
+  debugfile1.close();
 #endif
 
-  //mcsim_skip_instrs_end();
+  mcsim_skip_instrs_end();
 
   // **************************************************************
-  // GET: search for a key, if present then remove it, otherwise insert it      
+  // GET: search for a key, if present then remove it, otherwise insert it
   int j;
   for (j = 0; j != (total_iterations/2); ++j) {// can find, remove              
-    get_time += bt_get(&bt, srand_seed, value_size, rand_v, 1, j);  
+    get_time += bt_get(&bt, undolog, redolog, srand_seed, value_size, rand_v, 1, j);  
+  }
+
+  for (j = 0; j != (total_iterations/2); ++j) {// cannot find, insert              
+    get_time += bt_get(&bt, undolog, redolog, srand_seed, value_size, rand_v, 0, j);  
   }
   
-  for (j = 0; j != (total_iterations/2); ++j) {// cannot find, insert
-    get_time += bt_get(&bt, srand_seed, value_size, rand_v, 0, j);  
-  }
+  printf("GET %d  time: %0.5f us ", item_count, (double)get_time / 1000.0);
+  printf("Throughput: %0.2f\n", item_count / ((double)get_time / (double)1000000000L));  
+
+  // make sure log structures are not dummy, will not discard by compile+O3
+  mcsim_skip_instrs_begin();
+  cout << "dummy: undolog.size= " << undolog.size() << endl;
+  cout << "dummy: redolog.size= " << redolog.size() << endl;
+  mcsim_skip_instrs_end();
   
-  //printf("GET %d  time: %0.5f us ", item_count, (double)get_time / 1000.0);
-  //printf("Throughput: %0.2f\n", item_count / ((double)get_time / (double)1000000000L));  
 
 #ifdef BTREE_DEBUG
   ofstream now;
