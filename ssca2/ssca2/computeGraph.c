@@ -164,6 +164,7 @@ double computeGraph(graph* G, graphSDG* SDGdata)
 #endif    
    
   for (i=0; i<m; i++) {
+    #ifdef PERSISTENT
     mcsim_skip_instrs_begin();
     LONG_T undolog_u, redolog_u, undolog_j, redolog_j;
     VERT_T *undolog_endV, *redolog_endV;
@@ -176,18 +177,23 @@ double computeGraph(graph* G, graphSDG* SDGdata)
     
     mcsim_log_begin();
     //mcsim_skip_instrs_begin();
+    #ifdef UNDOLOG
     undolog_u = u;
-    //redolog_u = SDGdata->startVertex[i];
     undolog_j = j;
-    //redolog_j = numEdges[u] + pos[i];
     undolog_endV[j] = endV[j-1];
-    //redolog_endV[j] = SDGdata->endVertex[i];
     undolog_w[j] = w[j-1];
-    //redolog_w[j] = SDGdata->weight[i];
+    #endif
+    #ifdef REDOLOG
+    redolog_u = SDGdata->startVertex[i];
+    redolog_j = numEdges[u] + pos[i];
+    redolog_endV[j] = SDGdata->endVertex[i];
+    redolog_w[j] = SDGdata->weight[i];
+    #endif
     //mcsim_skip_instrs_end();
     mcsim_mem_fence();
     mcsim_log_end();
     mcsim_mem_fence();
+    #endif
     
     u = SDGdata->startVertex[i];
     j = numEdges[u] + pos[i];
@@ -195,11 +201,13 @@ double computeGraph(graph* G, graphSDG* SDGdata)
     w[j] = SDGdata->weight[i]; 
     
     // make sure undolog and redolog data structures are not discarded by compiler
+    #ifdef PERSISTENT
     mcsim_skip_instrs_begin();
     printf("%d\n", (sizeof undolog_u) + (sizeof undolog_j) +
 	   (sizeof undolog_endV) + (sizeof undolog_w) + (sizeof redolog_u) +
 	   (sizeof redolog_j) + (sizeof redolog_endV) + (sizeof redolog_w));    
     mcsim_skip_instrs_end();
+    #endif
   }
   
 #ifdef DIAGNOSTIC
@@ -213,30 +221,43 @@ double computeGraph(graph* G, graphSDG* SDGdata)
 #endif         
   if (tid == 0) {      
     free(pos);
+    #ifdef PERSISTENT
     mcsim_skip_instrs_begin();
     graph *undolog_G, *redolog_G;
+    #ifdef UNDOLOG
     undolog_G = (graph *) malloc(sizeof(graph));
     undolog_G = (graph *) malloc(sizeof(graph));
+    #endif
+    #ifdef REDOLOG
+    redolog_G = (graph *) malloc(sizeof(graph));
+    redolog_G = (graph *) malloc(sizeof(graph));
+    #endif
     mcsim_skip_instrs_end();
     
     mcsim_log_begin();    
     //mcsim_skip_instrs_begin();
+
+    #ifdef UNDOLOG
     undolog_G->n = G->n;
     undolog_G->m = G->m;
     undolog_G->numEdges = G->numEdges;
     undolog_G->endV = G->endV;
     undolog_G->weight = G->weight;
-    
-    //redolog_G->n = n;
-    //redolog_G->m = m;
-    //redolog_G->numEdges = numEdges;
-    //redolog_G->endV = endV;
-    //redolog_G->weight = w;
+    #endif
+    #ifdef REDOLOG
+    redolog_G->n = n;
+    redolog_G->m = m;
+    redolog_G->numEdges = numEdges;
+    redolog_G->endV = endV;
+    redolog_G->weight = w;
+    #endif
+
     //mcsim_skip_instrs_end();
     
     mcsim_mem_fence();
     mcsim_log_end();
     mcsim_mem_fence();
+    #endif
     
     G->n = n;
     G->m = m;
@@ -245,9 +266,11 @@ double computeGraph(graph* G, graphSDG* SDGdata)
     G->weight = w;
     
     // make sure undolog and redolog data structures are not discarded by compiler
+    #ifdef PERSISTENT
     mcsim_skip_instrs_begin();
     printf("%d\n", (sizeof undolog_G) + (sizeof redolog_G));      
     mcsim_skip_instrs_end();
+    #endif
   }
   
 #ifdef _OPENMP    

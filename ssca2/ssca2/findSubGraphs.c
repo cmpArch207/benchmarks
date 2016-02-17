@@ -104,11 +104,13 @@ double findSubGraphs(graph* G, edge* maxIntWtList, int maxIntWtListSize)
       for (vert=start[phase_num]; vert<start[phase_num+1]; vert++) {
 	
 	v = S[vert];
+  #ifdef PERSISTENT
 	mcsim_skip_instrs_begin();
 	VERT_T *undolog_pS, *redolog_pS;
 	undolog_pS = (VERT_T *) malloc(pS_size*sizeof(VERT_T));
 	redolog_pS = (VERT_T *) malloc(pS_size*sizeof(VERT_T));
 	mcsim_skip_instrs_end();
+  #endif
 	
 	for (j=G->numEdges[v]; j<G->numEdges[v+1]; j++) {	  
 	  w = G->endV[j]; 
@@ -128,14 +130,20 @@ double findSubGraphs(graph* G, edge* maxIntWtList, int maxIntWtListSize)
 		pS = pSt;
 		pS_size = 2*pS_size;
 	      }
+        #ifdef PERSISTENT
 	      mcsim_log_begin();
 	      //mcsim_skip_instrs_begin();
+        #ifdef UNDOLOG
 	      undolog_pS[pCount] = pS[pCount];
-	      //redolog_pS[pCount] = w;
+        #endif
+        #ifdef REDOLOG
+	      redolog_pS[pCount] = w;
+        #endif
 	      //mcsim_skip_instrs_end();
 	      mcsim_mem_fence();	      
 	      mcsim_log_end();
 	      mcsim_mem_fence();
+        #endif
 	      pS[pCount++] = w;
 	    }
 #ifdef _OPENMP
@@ -145,9 +153,11 @@ double findSubGraphs(graph* G, edge* maxIntWtList, int maxIntWtListSize)
 	}
 	
 	// make sure undolog and redolog data structures are not discarded by compiler
+  #ifdef PERSISTENT
 	mcsim_skip_instrs_begin();
 	printf("%d\n", (sizeof undolog_pS) + (sizeof redolog_pS));      
 	mcsim_skip_instrs_end();
+  #endif
       }
       
       
@@ -173,28 +183,37 @@ double findSubGraphs(graph* G, edge* maxIntWtList, int maxIntWtListSize)
 #ifdef _OPENMP
 #pragma omp barrier
 #endif
+      #ifdef PERSISTENT
       mcsim_skip_instrs_begin();
       VERT_T *undolog_S, *redolog_S;
       undolog_S = (VERT_T *) malloc(n*sizeof(VERT_T));
       redolog_S = (VERT_T *) malloc(n*sizeof(VERT_T));
       mcsim_skip_instrs_end();
+      #endif
 
       for (k = pSCount[tid]; k < pSCount[tid+1]; k++) {
+  #ifdef PERSISTENT
 	mcsim_log_begin();
 	//mcsim_skip_instrs_begin();
+  #ifdef UNDOLOG
 	undolog_S[k] = S[k];
-	//redolog_S[k] = pS[k-pSCount[tid]];
+  #endif
+  #ifdef REDOLOG
+	redolog_S[k] = pS[k-pSCount[tid]];
+  #endif
 	//mcsim_skip_instrs_end();
 	mcsim_mem_fence();
 	mcsim_log_end();
 	mcsim_mem_fence();
+  #endif
 	S[k] = pS[k-pSCount[tid]];
       } 
-
+      #ifdef PERSISTENT
       // make sure undolog and redolog data structures are not discarded by compiler
       mcsim_skip_instrs_begin();
       printf("%d\n", (sizeof undolog_S) + (sizeof redolog_S));      
       mcsim_skip_instrs_end();
+      #endif
       
       
 #ifdef _OPENMP
