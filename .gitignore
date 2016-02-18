@@ -1,0 +1,8 @@
+*.o
+*-pm-*
+hashtable
+rbtree
+sps
+btree
+SSCA2
+sixdegs
