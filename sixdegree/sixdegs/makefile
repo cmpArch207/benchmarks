@@ -3,8 +3,8 @@ OBJS = sixdegs.o
 #CFLAGS = -O0 -g -ggdb -w  -Wall
 CFLAGS = -O3 -w -g -fno-builtin #-DSDG_DEBUG
 #LDFLAGS = -lpthread 
-LDFLAGS = /gpfs/home/juz138/work/software/pin-2.11/source/tools/Pthread/libmypthread.a
-WRAPPER_OBJ = /gpfs/home/juz138/work/software/pin-2.11/source/tools/Apps/mcsim_wrapper.o
+LDFLAGS = /home/mogleari/research/pin-2.11/source/tools/Pthread/libmypthread.a
+WRAPPER_OBJ = /home/mogleari/research/pin-2.11/source/tools/Apps/mcsim_wrapper.o
 CC = g++ 
 
 $(TARGET): $(OBJS) $(WRAPPER_OBJ)

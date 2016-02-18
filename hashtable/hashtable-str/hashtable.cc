@@ -44,7 +44,7 @@ void hash_insert( int arr_size, int num_iterations )
   srand( time( NULL ) );  
   unordered_map< string, string >::iterator hash_iter;
   string key   = to_string( rand() % arr_size );
-  string value = random_string( arr_size / num_iterations );
+  string value = random_string( num_iterations );
   // Checks if the hashtable contains the key
   hash_iter = hashtable.find( key );
   mcsim_skip_instrs_end();
@@ -60,6 +60,25 @@ void hash_insert( int arr_size, int num_iterations )
     #endif
     #ifdef UNDOLOG
     undo_log.push_back( str_pair( key, hash_iter->second ) );
+    #endif
+
+    mcsim_mem_fence();
+    mcsim_log_end();
+    mcsim_mem_fence();
+    #endif
+    
+    hashtable.insert( str_pair( key, value ) );
+  }
+  else
+  {
+    #ifdef PERSISTENT
+    mcsim_log_begin();
+
+    #ifdef REDOLOG
+    redo_log.push_back( str_pair( key, value ) );
+    #endif
+    #ifdef UNDOLOG
+    undo_log.push_back( str_pair( key, value ) );
     #endif
 
     mcsim_mem_fence();
@@ -116,7 +135,7 @@ void hash_initialize( int arr_size, int num_iterations )
     // If not, insert it the key+value into the table
     if ( hash_iter == hashtable.end() )
     {
-      string value = random_string( arr_size / num_iterations );
+      string value = random_string( num_iterations );
       hashtable.insert( str_pair( key, value ) );
     }
   }

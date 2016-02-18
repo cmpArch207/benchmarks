@@ -75,7 +75,7 @@ void sps_initialize( int arr_size, int num_swaps )
 
   for ( int i = 0; i < arr_size; i++ )
   {
-    string value = random_string( arr_size / num_swaps );
+    string value = random_string( num_swaps );
     sps_vector.push_back( value );
   }
 }

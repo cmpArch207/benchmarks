@@ -43,7 +43,7 @@ void rbtree_insert( int arr_size, int num_iterations )
   srand( time( NULL ) );  
   map< string, string >::iterator rbtree_iter;
   string key   = to_string( rand() % arr_size );
-  string value = random_string( arr_size / num_iterations );
+  string value = random_string( num_iterations );
   // Checks if the rbtree contains the key
   rbtree_iter = rbtree.find( key );
   mcsim_skip_instrs_end();
@@ -115,7 +115,7 @@ void rbtree_initialize( int arr_size, int num_iterations )
     // If not, insert it the key+value into the table
     if ( rbtree_iter == rbtree.end() )
     {
-      string value = random_string( arr_size / num_iterations );
+      string value = random_string( num_iterations );
       rbtree.insert( str_pair( key, value ) );
     }
   }

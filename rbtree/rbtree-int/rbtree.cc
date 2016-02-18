@@ -53,6 +53,25 @@ void rbtree_insert( int arr_size )
     
     rbtree.insert( int_pair( key, value ) );
   }
+  else
+  {
+    #ifdef PERSISTENT
+    mcsim_log_begin();
+
+    #ifdef REDOLOG
+    redo_log.push_back( int_pair( key, value ) );
+    #endif
+    #ifdef UNDOLOG
+    undo_log.push_back( int_pair( key, value ) );
+    #endif
+
+    mcsim_mem_fence();
+    mcsim_log_end();
+    mcsim_mem_fence();
+    #endif
+    
+    rbtree.insert( int_pair( key, value ) );
+  }
 }
 
 void rbtree_delete( int arr_size )
