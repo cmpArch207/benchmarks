@@ -119,6 +119,7 @@ double bt_get(btree_impl* pbt,
     mcsim_skip_instrs_end();
     
     #ifdef PERSISTENT
+    mcsim_tx_begin();
     mcsim_log_begin();
     #ifdef UNDOLOG
     undolog.insert(Char_Pair(k, insert_v));
@@ -134,6 +135,10 @@ double bt_get(btree_impl* pbt,
     #endif // PERSISTENT
     
     pbt->insert(k, insert_v);
+    #ifdef PERSISTENT
+    mcsim_tx_end();
+    mcsim_clwb( &( pbt->find( k ).data() ) );
+    #endif // PERSISTENT
 
     clock_gettime(CLOCK_REALTIME, &insert_ts2);
     get_time += diff_clocktime(&insert_ts1, &insert_ts2);
@@ -142,6 +147,7 @@ double bt_get(btree_impl* pbt,
     clock_gettime(CLOCK_REALTIME, &del_ts1);
 
     #ifdef PERSISTENT
+    mcsim_tx_begin();
     mcsim_log_begin();
     #ifdef UNDOLOG
     undolog.insert(Char_Pair(k, v));
@@ -157,6 +163,9 @@ double bt_get(btree_impl* pbt,
     #endif // PERSISTENT
 
     pbt->erase(k);
+    #ifdef PERSISTENT
+    mcsim_tx_end();
+    #endif // PERSISTENT
     
     clock_gettime(CLOCK_REALTIME, &del_ts2);
     get_time += diff_clocktime(&del_ts1, &del_ts2);
