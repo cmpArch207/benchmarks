@@ -16,11 +16,11 @@ map< int, int > rbtree;
 #ifdef PERSISTENT
 #ifdef REDOLOG
 vector<int_pair> redo_log;
-#endif
+#endif // REDOLOG
 #ifdef UNDOLOG
 vector<int_pair> undo_log;
-#endif
-#endif
+#endif // UNDOLOG
+#endif // PERSISTENT
 
 void rbtree_insert( int arr_size )
 {
@@ -41,15 +41,15 @@ void rbtree_insert( int arr_size )
 
     #ifdef REDOLOG
     redo_log.push_back( int_pair( key, value ) );
-    #endif
+    #endif // REDOLOG
     #ifdef UNDOLOG
     undo_log.push_back( int_pair( key, rbtree_iter->second ) );
-    #endif
+    #endif // UNDOLOG
 
     mcsim_mem_fence();
     mcsim_log_end();
     mcsim_mem_fence();
-    #endif
+    #endif // PERSISTENT
     
     rbtree.insert( int_pair( key, value ) );
   }
@@ -60,15 +60,15 @@ void rbtree_insert( int arr_size )
 
     #ifdef REDOLOG
     redo_log.push_back( int_pair( key, value ) );
-    #endif
+    #endif // REDOLOG
     #ifdef UNDOLOG
     undo_log.push_back( int_pair( key, value ) );
-    #endif
+    #endif // UNDOLOG
 
     mcsim_mem_fence();
     mcsim_log_end();
     mcsim_mem_fence();
-    #endif
+    #endif // PERSISTENT
     
     rbtree.insert( int_pair( key, value ) );
   }
@@ -92,15 +92,15 @@ void rbtree_delete( int arr_size )
 
     #ifdef REDOLOG
     redo_log.push_back( int_pair( key, rbtree_iter->second ) );
-    #endif
+    #endif // REDOLOG
     #ifdef UNDOLOG
     undo_log.push_back( int_pair( key, rbtree_iter->second ) );
-    #endif
+    #endif // UNDOLOG
     
     mcsim_mem_fence();
     mcsim_log_end();
     mcsim_mem_fence();
-    #endif
+    #endif // PERSISTENT
 
     rbtree.erase( rbtree_iter );
   }

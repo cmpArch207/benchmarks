@@ -16,11 +16,11 @@ map< string, string > rbtree;
 #ifdef PERSISTENT
 #ifdef REDOLOG
 vector<str_pair> redo_log;
-#endif
+#endif // REDOLOG
 #ifdef UNDOLOG
 vector<str_pair> undo_log;
-#endif
-#endif
+#endif // UNDOLOG
+#endif // PERSISTENT
 
 string random_string( size_t length ) {
   static const char alphanum[] =
@@ -56,15 +56,34 @@ void rbtree_insert( int arr_size, int num_iterations )
 
     #ifdef REDOLOG
     redo_log.push_back( str_pair( key, value ) );
-    #endif
+    #endif // REDOLOG
     #ifdef UNDOLOG
     undo_log.push_back( str_pair( key, rbtree_iter->second ) );
-    #endif
+    #endif // UNDOLOG
 
     mcsim_mem_fence();
     mcsim_log_end();
     mcsim_mem_fence();
-    #endif
+    #endif // PERSISTENT
+    
+    rbtree.insert( str_pair( key, value ) );
+  }
+  else
+  {
+    #ifdef PERSISTENT
+    mcsim_log_begin();
+
+    #ifdef REDOLOG
+    redo_log.push_back( str_pair( key, value ) );
+    #endif // REDOLOG
+    #ifdef UNDOLOG
+    undo_log.push_back( str_pair( key, value ) );
+    #endif // UNDOLOG
+
+    mcsim_mem_fence();
+    mcsim_log_end();
+    mcsim_mem_fence();
+    #endif // PERSISTENT
     
     rbtree.insert( str_pair( key, value ) );
   }
@@ -88,15 +107,15 @@ void rbtree_delete( int arr_size, int num_iterations )
 
     #ifdef REDOLOG
     redo_log.push_back( str_pair( key, rbtree_iter->second ) );
-    #endif
+    #endif // REDOLOG
     #ifdef UNDOLOG
     undo_log.push_back( str_pair( key, rbtree_iter->second ) );
-    #endif
+    #endif // UNDOLOG
     
     mcsim_mem_fence();
     mcsim_log_end();
     mcsim_mem_fence();
-    #endif
+    #endif // PERSISTENT
 
     rbtree.erase( rbtree_iter );
   }

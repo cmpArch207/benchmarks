@@ -9,8 +9,8 @@
 #define DEL_BENCH 2
 
 #define RAND_SEED 21312309
-#define ITEM_COUNT 4096
-#define TOTAL_ITERATIONS 1024
+#define ITEM_COUNT 1000000
+#define TOTAL_ITERATIONS 1000
 #define PROB 50
 
 extern "C" {
@@ -23,6 +23,7 @@ extern "C" {
   extern void mcsim_log_begin();
   extern void mcsim_log_end(); 
   extern void mcsim_mem_fence();
+  extern void mcsim_clwb( const void *p );
 }
 
 #endif // _DEFINE_H_
