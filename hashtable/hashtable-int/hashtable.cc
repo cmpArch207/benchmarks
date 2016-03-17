@@ -42,15 +42,15 @@ void hash_insert( int arr_size )
 
     #ifdef REDOLOG
     redo_log.push_back( int_pair( key, value ) );
-    #endif
+    #endif // REDOLOG
     #ifdef UNDOLOG
     undo_log.push_back( int_pair( key, hash_iter->second ) );
-    #endif
+    #endif // UNDOLOG
 
     mcsim_mem_fence();
     mcsim_log_end();
     mcsim_mem_fence();
-    #endif
+    #endif // PERSISTENT
     
     hashtable.insert( int_pair( key, value ) );
   }
@@ -61,15 +61,15 @@ void hash_insert( int arr_size )
 
     #ifdef REDOLOG
     redo_log.push_back( int_pair( key, value ) );
-    #endif
+    #endif // REDOLOG
     #ifdef UNDOLOG
     undo_log.push_back( int_pair( key, value ) );
-    #endif
+    #endif // UNDOLOG
 
     mcsim_mem_fence();
     mcsim_log_end();
     mcsim_mem_fence();
-    #endif
+    #endif // PERSISTENT
     
     hashtable.insert( int_pair( key, value ) );
   }
@@ -93,15 +93,15 @@ void hash_delete( int arr_size )
 
     #ifdef REDOLOG
     redo_log.push_back( int_pair( key, hash_iter->second ) );
-    #endif
+    #endif // REDOLOG
     #ifdef UNDOLOG
     undo_log.push_back( int_pair( key, hash_iter->second ) );
-    #endif
+    #endif // UNDOLOG
     
     mcsim_mem_fence();
     mcsim_log_end();
     mcsim_mem_fence();
-    #endif
+    #endif // PERSISTENT
 
     hashtable.erase( hash_iter );
   }
