@@ -9,32 +9,17 @@
 
 using namespace std;
 
-typedef pair< int, string > keyval_pair;
-vector<string> sps_vector;
+typedef pair< int, int > int_pair;
+vector<int> sps;
 
 #ifdef PERSISTENT
 #ifdef REDOLOG
-vector<keyval_pair> redo_log;
+vector<int_pair> redo_log;
 #endif // REDOLOG
 #ifdef UNDOLOG
-vector<keyval_pair> undo_log;
+vector<int_pair> undo_log;
 #endif // UNDOLOG
 #endif // PERSISTENT
-
-string random_string( size_t length ) {
-  static const char alphanum[] =
-    "0123456789"
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    "abcdefghijklmnopqrstuvwxyz";
-
-  string str( length, 0 );
-  for ( int i = 0; i < length; i++ ) 
-  {
-    str[i] = alphanum[ rand() % ( sizeof( alphanum ) - 1 ) ];
-  }
-
-  return str;
-}
 
 void sps_swap( int arr_size )
 {
@@ -44,20 +29,21 @@ void sps_swap( int arr_size )
   int key1   = rand() % arr_size;
   while ( key1 == key0 )
     key1 = rand() % arr_size;
-  string value0 = sps_vector[key0];
-  string value1 = sps_vector[key1];
+  int value0 = sps[key0];
+  int value1 = sps[key1];
   mcsim_skip_instrs_end();
  
   #ifdef PERSISTENT
+  mcsim_tx_begin();
   mcsim_log_begin();
 
   #ifdef REDOLOG
-  redo_log.push_back( keyval_pair( key0, value1 ) );
-  redo_log.push_back( keyval_pair( key1, value0 ) );
+  redo_log.push_back( int_pair( key0, value1 ) );
+  redo_log.push_back( int_pair( key1, value0 ) );
   #endif // REDOLOG
   #ifdef UNDOLOG
-  undo_log.push_back( keyval_pair( key0, value0 ) );
-  undo_log.push_back( keyval_pair( key1, value1 ) );
+  undo_log.push_back( int_pair( key0, value0 ) );
+  undo_log.push_back( int_pair( key1, value1 ) );
   #endif // UNDOLOG
 
   mcsim_mem_fence();
@@ -65,18 +51,23 @@ void sps_swap( int arr_size )
   mcsim_mem_fence();
   #endif // PERSISTENT
   
-  sps_vector[key0] = value1;
-  sps_vector[key1] = value0;
+  sps[key0] = value1;
+  sps[key1] = value0;
+  #ifdef PERSISTENT
+  mcsim_tx_end();
+  mcsim_clwb( &( sps[key0] ) );
+  mcsim_clwb( &( sps[key1] ) );
+  #endif // PERSISTENT
 }
 
-void sps_initialize( int arr_size, int num_swaps )
+void sps_initialize( int arr_size )
 {
   srand( time( NULL ) );  
 
-  for ( int i = 0; i < arr_size; i++ )
+  for ( int key = 0; key < arr_size; key++ )
   {
-    string value = random_string( num_swaps );
-    sps_vector.push_back( value );
+    int value = rand();
+    sps[key] = value;
   }
 }
 
@@ -112,7 +103,7 @@ int main( int argc, char **argv )
     }
   }         
 
-  sps_initialize( arr_size, num_swaps );
+  sps_initialize( arr_size );
   mcsim_skip_instrs_end();
  
   for ( int i = 0; i < num_swaps; i++ )

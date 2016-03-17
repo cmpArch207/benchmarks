@@ -15,11 +15,11 @@ vector<int> sps;
 #ifdef PERSISTENT
 #ifdef REDOLOG
 vector<int_pair> redo_log;
-#endif
+#endif // REDOLOG
 #ifdef UNDOLOG
 vector<int_pair> undo_log;
-#endif
-#endif
+#endif // UNDOLOG
+#endif // PERSISTENT
 
 void sps_swap( int arr_size )
 {
@@ -39,16 +39,16 @@ void sps_swap( int arr_size )
   #ifdef REDOLOG
   redo_log.push_back( int_pair( key0, value1 ) );
   redo_log.push_back( int_pair( key1, value0 ) );
-  #endif
+  #endif // REDOLOG
   #ifdef UNDOLOG
   undo_log.push_back( int_pair( key0, value0 ) );
   undo_log.push_back( int_pair( key1, value1 ) );
-  #endif
+  #endif // UNDOLOG
 
   mcsim_mem_fence();
   mcsim_log_end();
   mcsim_mem_fence();
-  #endif
+  #endif // PERSISTENT
   
   sps[key0] = value1;
   sps[key1] = value0;

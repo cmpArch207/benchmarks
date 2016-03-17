@@ -49,6 +49,7 @@ void sps_swap( int arr_size )
   mcsim_skip_instrs_end();
  
   #ifdef PERSISTENT
+  mcsim_tx_begin();
   mcsim_log_begin();
 
   #ifdef REDOLOG
@@ -67,6 +68,11 @@ void sps_swap( int arr_size )
   
   sps_vector[key0] = value1;
   sps_vector[key1] = value0;
+  #ifdef PERSISTENT
+  mcsim_tx_end();
+  mcsim_clwb( &( sps[key0] ) );
+  mcsim_clwb( &( sps[key1] ) );
+  #endif // PERSISTENT
 }
 
 void sps_initialize( int arr_size, int num_swaps )

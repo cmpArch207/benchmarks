@@ -1,0 +1,24 @@
+# Makefile for rbTree
+
+CC = g++
+CC_FLAGS = -Wno-deprecated -Wall #-lrt -lm #-lboost_thread
+
+DEBUG_FLAGS = -DSPS_DEBUG
+
+OPT_FLAGS = -O3
+
+DEPS = defines.h
+
+OBJ = sps.o
+
+%.o: %.cc $(DEPS)
+	$(CC) -c -o $@ $< $(CC_FLAGS) $(OPT_FLAGS) $(DEBUG_FLAGS)
+
+
+sps: $(OBJ)
+	$(CC) -o $@ $< $(CC_FLAGS) $(OPT_FLAGS) $(DEBUG_FLAGS)
+
+.PHONY: clean
+
+clean:
+	rm -f *.o sps *.debug
