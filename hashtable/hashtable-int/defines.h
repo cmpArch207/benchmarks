@@ -23,6 +23,7 @@ extern "C" {
   extern void mcsim_log_begin();
   extern void mcsim_log_end(); 
   extern void mcsim_mem_fence();
+  extern void mcsim_clwb( const void *p );
 }
 
 #endif // _DEFINE_H_
