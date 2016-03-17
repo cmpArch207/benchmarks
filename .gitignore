@@ -1,9 +1,9 @@
 *.o
 *.a
 *-pm-*
-hashtable
-rbtree
-sps
-btree
-SSCA2
-sixdegs
+hashtable/*/hashtable
+rbtree/*/rbtree
+sps/*/sps
+btree/*/btree
+SSCA2/*/SSCA2
+sixdegree/*/sixdegs
