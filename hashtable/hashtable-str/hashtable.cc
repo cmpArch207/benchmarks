@@ -17,11 +17,11 @@ unordered_map< string, string > hashtable;
 #ifdef PERSISTENT
 #ifdef REDOLOG
 vector<str_pair> redo_log;
-#endif
+#endif // REDOLOG
 #ifdef UNDOLOG
 vector<str_pair> undo_log;
-#endif
-#endif
+#endif // UNDOLOG
+#endif // PERSISTENT
 
 string random_string( size_t length ) {
   static const char alphanum[] =

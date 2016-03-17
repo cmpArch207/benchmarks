@@ -17,11 +17,11 @@ unordered_map< int, int > hashtable;
 #ifdef PERSISTENT
 #ifdef REDOLOG
 vector<int_pair> redo_log;
-#endif
+#endif // REDOLOG
 #ifdef UNDOLOG
 vector<int_pair> undo_log;
-#endif
-#endif
+#endif // UNDOLOG
+#endif // PERSISTENT
 
 void hash_insert( int arr_size )
 {
