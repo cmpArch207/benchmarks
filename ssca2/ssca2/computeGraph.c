@@ -182,18 +182,18 @@ double computeGraph(graph* G, graphSDG* SDGdata)
     undolog_j = j;
     undolog_endV[j] = endV[j-1];
     undolog_w[j] = w[j-1];
-    #endif
+    #endif // UNDOLOG
     #ifdef REDOLOG
     redolog_u = SDGdata->startVertex[i];
     redolog_j = numEdges[u] + pos[i];
     redolog_endV[j] = SDGdata->endVertex[i];
     redolog_w[j] = SDGdata->weight[i];
-    #endif
+    #endif // REDOLOG
     //mcsim_skip_instrs_end();
     mcsim_mem_fence();
     mcsim_log_end();
     mcsim_mem_fence();
-    #endif
+    #endif // PERSISTENT
     
     u = SDGdata->startVertex[i];
     j = numEdges[u] + pos[i];
@@ -207,7 +207,7 @@ double computeGraph(graph* G, graphSDG* SDGdata)
 	   (sizeof undolog_endV) + (sizeof undolog_w) + (sizeof redolog_u) +
 	   (sizeof redolog_j) + (sizeof redolog_endV) + (sizeof redolog_w));    
     mcsim_skip_instrs_end();
-    #endif
+    #endif // PERSISTENT
   }
   
 #ifdef DIAGNOSTIC
@@ -227,11 +227,11 @@ double computeGraph(graph* G, graphSDG* SDGdata)
     #ifdef UNDOLOG
     undolog_G = (graph *) malloc(sizeof(graph));
     undolog_G = (graph *) malloc(sizeof(graph));
-    #endif
+    #endif // UNDOLOG
     #ifdef REDOLOG
     redolog_G = (graph *) malloc(sizeof(graph));
     redolog_G = (graph *) malloc(sizeof(graph));
-    #endif
+    #endif // REDOLOG
     mcsim_skip_instrs_end();
     
     mcsim_log_begin();    
@@ -243,21 +243,21 @@ double computeGraph(graph* G, graphSDG* SDGdata)
     undolog_G->numEdges = G->numEdges;
     undolog_G->endV = G->endV;
     undolog_G->weight = G->weight;
-    #endif
+    #endif // UNDOLOG
     #ifdef REDOLOG
     redolog_G->n = n;
     redolog_G->m = m;
     redolog_G->numEdges = numEdges;
     redolog_G->endV = endV;
     redolog_G->weight = w;
-    #endif
+    #endif // REDOLOG
 
     //mcsim_skip_instrs_end();
     
     mcsim_mem_fence();
     mcsim_log_end();
     mcsim_mem_fence();
-    #endif
+    #endif // PERSISTENT
     
     G->n = n;
     G->m = m;
@@ -270,7 +270,7 @@ double computeGraph(graph* G, graphSDG* SDGdata)
     mcsim_skip_instrs_begin();
     printf("%d\n", (sizeof undolog_G) + (sizeof redolog_G));      
     mcsim_skip_instrs_end();
-    #endif
+    #endif // PERSISTENT
   }
   
 #ifdef _OPENMP    

@@ -77,18 +77,18 @@ double getStartLists(graph* G, edge** maxIntWtListPtr,
 	LONG_T *undolog_local_max;
 	undolog_local_max = (LONG_T *) malloc(nthreads*sizeof(LONG_T));
 	undolog_local_max[tid] = local_max[tid];
-	#endif
+	#endif // UNDOLOG
   #ifdef REDOLOG
   LONG_T *redolog_local_max;	
 	redolog_local_max = (LONG_T *) malloc(nthreads*sizeof(LONG_T));
 	redolog_local_max[tid] = G->weight[j];
-	#endif
+	#endif // REDOLOG
   
   //mcsim_skip_instrs_end();
 	mcsim_mem_fence();
 	mcsim_log_end();
 	mcsim_mem_fence();
-  #endif
+  #endif // PERSISTENT
 	
 	local_max[tid] = G->weight[j];
 	pCount = 0;
@@ -104,7 +104,7 @@ double getStartLists(graph* G, edge** maxIntWtListPtr,
 	undolog_pList[pCount].endVertex = pList[pCount].endVertex;
 	undolog_pList[pCount].w = pList[pCount].w;
 	undolog_pList[pCount].e = pList[pCount].e;
-	#endif
+	#endif // UNDOLOG
   #ifdef REDOLOG
 	edge *redolog_pList;
 	redolog_pList = (edge *) malloc(tmpListSize*sizeof(edge));
@@ -112,13 +112,13 @@ double getStartLists(graph* G, edge** maxIntWtListPtr,
 	redolog_pList[pCount].endVertex = G->endV[j];
 	redolog_pList[pCount].w = local_max[tid];
 	redolog_pList[pCount].e = j;
-	#endif
+	#endif // REDOLOG
 
 	//mcsim_skip_instrs_end();
 	mcsim_mem_fence();
 	mcsim_log_end();
 	mcsim_mem_fence();
-  #endif
+  #endif // PERSISTENT
 
 	pList[pCount].startVertex = i;
 	pList[pCount].endVertex = G->endV[j];
@@ -131,12 +131,12 @@ double getStartLists(graph* G, edge** maxIntWtListPtr,
 	mcsim_skip_instrs_begin();
   #ifdef UNDOLOG
 	printf("%d\n", (sizeof undolog_local_max) + (sizeof undolog_pList));      
-	#endif
+	#endif // UNDOLOG
   #ifdef REDOLOG
 	printf("%d\n", (sizeof redolog_local_max) + (sizeof redolog_pList));
-	#endif
+	#endif // REDOLOG
 	mcsim_skip_instrs_end();
-  #endif
+  #endif // PERSISTENT 
       } else if (G->weight[j] == local_max[tid]) {
   #ifdef PERSISTENT
 	mcsim_log_begin();
@@ -149,7 +149,7 @@ double getStartLists(graph* G, edge** maxIntWtListPtr,
 	undolog_pList[pCount].endVertex = pList[pCount].endVertex;
 	undolog_pList[pCount].w = pList[pCount].w;
 	undolog_pList[pCount].e = pList[pCount].e;
-	#endif
+	#endif // UNDOLOG
   #ifdef REDOLOG
 	edge *redolog_pList;
 	redolog_pList = (edge *) malloc(tmpListSize*sizeof(edge));
@@ -157,13 +157,13 @@ double getStartLists(graph* G, edge** maxIntWtListPtr,
 	redolog_pList[pCount].endVertex = G->endV[j];
 	redolog_pList[pCount].w = local_max[tid];
 	redolog_pList[pCount].e = j;
-	#endif
+	#endif // REDOLOG
 
 	//mcsim_skip_instrs_end();
 	mcsim_mem_fence();
 	mcsim_log_end();
 	mcsim_mem_fence();
-  #endif
+  #endif // PERSISTENT
 	
 	pList[pCount].startVertex = i;
 	pList[pCount].endVertex = G->endV[j];
@@ -176,12 +176,12 @@ double getStartLists(graph* G, edge** maxIntWtListPtr,
 	mcsim_skip_instrs_begin();
   #ifdef UNDOLOG
 	printf("%d\n", (sizeof undolog_pList));
-	#endif
+	#endif // UNDOLOG
   #ifdef REDOLOG
 	printf("%d\n", (sizeof redolog_pList));
-	#endif
+	#endif // REDOLOG
 	mcsim_skip_instrs_end();
-  #endif
+  #endif // PERSISTENT 
       }
     }
   }
@@ -262,7 +262,7 @@ double getStartLists(graph* G, edge** maxIntWtListPtr,
     (undolog_maxIntWtList[j]).endVertex   = (maxIntWtList[j]).endVertex;
     (undolog_maxIntWtList[j]).e           = (maxIntWtList[j]).e;
     (undolog_maxIntWtList[j]).w           = (maxIntWtList[j]).w;    
-    #endif
+    #endif // UNDOLOG
     #ifdef REDOLOG
     edge *redolog_maxIntWtList;
     redolog_maxIntWtList = (edge *) malloc((maxIntWtListSize)*sizeof(edge));
@@ -270,13 +270,13 @@ double getStartLists(graph* G, edge** maxIntWtListPtr,
     (redolog_maxIntWtList[j]).endVertex = pList[j-p_start[tid]].endVertex;
     (redolog_maxIntWtList[j]).e = pList[j-p_start[tid]].e;
     (redolog_maxIntWtList[j]).w = pList[j-p_start[tid]].w;
-    #endif
+    #endif // REDOLOG
 
     //mcsim_skip_instrs_end();
     mcsim_mem_fence();
     mcsim_log_end();
     mcsim_mem_fence();
-    #endif
+    #endif // PERSISTENT
 
     (maxIntWtList[j]).startVertex = pList[j-p_start[tid]].startVertex;
     (maxIntWtList[j]).endVertex = pList[j-p_start[tid]].endVertex;
@@ -287,12 +287,12 @@ double getStartLists(graph* G, edge** maxIntWtListPtr,
     mcsim_skip_instrs_begin();
     #ifdef UNDOLOG
     printf("%d\n", (sizeof undolog_maxIntWtList));
-    #endif
+    #endif // UNDOLOG
     #ifdef REDOLOG
     printf("%d\n", (sizeof redolog_maxIntWtList));
-    #endif
+    #endif // REDOLOG
     mcsim_skip_instrs_end();
-    #endif
+    #endif // PERSISTENT
   } 
   
   

@@ -390,15 +390,15 @@ double betweennessCentrality(graph* G, DOUBLE_T* BC)
 	//mcsim_skip_instrs_begin();
   #ifdef UNDOLOG
 	undolog_BC[w] = BC[w];
-  #endif
+  #endif // UNDOLOG
   #ifdef REDOLOG
 	redolog_BC[w] = BC[w] + del[w];	
-  #endif
+  #endif // REDOLOG
 	//mcsim_skip_instrs_end();
 	mcsim_mem_fence();
 	mcsim_log_end();
 	mcsim_mem_fence();
-  #endif
+  #endif // PERSISTENT
 	
 	BC[w] += del[w];
       }
@@ -414,7 +414,7 @@ double betweennessCentrality(graph* G, DOUBLE_T* BC)
       mcsim_skip_instrs_begin();
       printf("%d\n", (sizeof undolog_BC) + (sizeof redolog_BC));      
       mcsim_skip_instrs_end();
-      #endif
+      #endif // PERSISTENT 
     }
     
     mcsim_skip_instrs_begin();

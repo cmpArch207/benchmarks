@@ -389,14 +389,14 @@ double betweennessCentrality(graph* G, DOUBLE_T* BC)
 	mcsim_log_begin();
   #ifdef UNDOLOG
 	undolog_BC[w] = BC[w];
-  #endif
+  #endif // UNDOLOG
   #ifdef REDOLOG
 	redolog_BC[w] = BC[w] + del[w];	
-  #endif
+  #endif // REDOLOG
 	mcsim_mem_fence();
 	mcsim_log_end();
 	mcsim_mem_fence();
-  #endif
+  #endif // PERSISTENT
 	
 	BC[w] += del[w];
       }

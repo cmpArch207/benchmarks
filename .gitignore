@@ -1,5 +1,4 @@
 *.o
-*.a
 *-pm-*
 hashtable/*/hashtable
 rbtree/*/rbtree
