@@ -7,8 +7,8 @@
 #define INSERT_REMOVE 3
 #define TOTAL_ITERATIONS 100
 
-#define BASE 1000000000                                    
-#define DIFF 3 
+#define BASE 1000000000
+#define DIFF 3
 
 extern "C" {
   extern void mcsim_skip_instrs_begin();
@@ -19,6 +19,7 @@ extern "C" {
   extern void mcsim_tx_end();
   extern void mcsim_log_begin();
   extern void mcsim_log_end();
+  extern void mcsim_mem_fence();
 }
 
 #endif // _DEFINE_H_
