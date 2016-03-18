@@ -12,14 +12,12 @@ using namespace std;
 typedef pair< int, string > keyval_pair;
 vector<string> sps_vector;
 
-#ifdef PERSISTENT
 #ifdef REDOLOG
 vector<keyval_pair> redo_log;
 #endif // REDOLOG
 #ifdef UNDOLOG
 vector<keyval_pair> undo_log;
 #endif // UNDOLOG
-#endif // PERSISTENT
 
 string random_string( size_t length ) {
   static const char alphanum[] =
@@ -48,8 +46,8 @@ void sps_swap( int arr_size )
   string value1 = sps_vector[key1];
   mcsim_skip_instrs_end();
  
-  #ifdef PERSISTENT
   mcsim_tx_begin();
+  #ifdef BASELINE
   mcsim_log_begin();
 
   #ifdef REDOLOG
@@ -64,15 +62,15 @@ void sps_swap( int arr_size )
   mcsim_mem_fence();
   mcsim_log_end();
   mcsim_mem_fence();
-  #endif // PERSISTENT
+  #endif // BASELINE
   
   sps_vector[key0] = value1;
   sps_vector[key1] = value0;
-  #ifdef PERSISTENT
   mcsim_tx_end();
-  mcsim_clwb( &( sps[key0] ) );
-  mcsim_clwb( &( sps[key1] ) );
-  #endif // PERSISTENT
+  #ifdef CLWB
+  mcsim_clwb( &( sps_vector[key0] ) );
+  mcsim_clwb( &( sps_vector[key1] ) );
+  #endif // CLWB
 }
 
 void sps_initialize( int arr_size, int num_swaps )

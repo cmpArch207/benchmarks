@@ -12,14 +12,12 @@ using namespace std;
 typedef pair< int, int > int_pair;
 vector<int> sps;
 
-#ifdef PERSISTENT
 #ifdef REDOLOG
 vector<int_pair> redo_log;
 #endif // REDOLOG
 #ifdef UNDOLOG
 vector<int_pair> undo_log;
 #endif // UNDOLOG
-#endif // PERSISTENT
 
 void sps_swap( int arr_size )
 {
@@ -33,8 +31,8 @@ void sps_swap( int arr_size )
   int value1 = sps[key1];
   mcsim_skip_instrs_end();
  
-  #ifdef PERSISTENT
   mcsim_tx_begin();
+  #ifdef BASELINE
   mcsim_log_begin();
 
   #ifdef REDOLOG
@@ -49,15 +47,15 @@ void sps_swap( int arr_size )
   mcsim_mem_fence();
   mcsim_log_end();
   mcsim_mem_fence();
-  #endif // PERSISTENT
+  #endif // BASELINE
   
   sps[key0] = value1;
   sps[key1] = value0;
-  #ifdef PERSISTENT
   mcsim_tx_end();
+  #ifdef CLWB
   mcsim_clwb( &( sps[key0] ) );
   mcsim_clwb( &( sps[key1] ) );
-  #endif // PERSISTENT
+  #endif // CLWB
 }
 
 void sps_initialize( int arr_size )
