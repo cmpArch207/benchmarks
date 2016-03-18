@@ -13,14 +13,12 @@ using namespace std;
 typedef pair< string, string > str_pair;
 map< string, string > rbtree;
 
-#ifdef PERSISTENT
 #ifdef REDOLOG
 vector<str_pair> redo_log;
 #endif // REDOLOG
 #ifdef UNDOLOG
 vector<str_pair> undo_log;
 #endif // UNDOLOG
-#endif // PERSISTENT
 
 string random_string( size_t length ) {
   static const char alphanum[] =
@@ -51,8 +49,8 @@ void rbtree_insert( int arr_size, int num_iterations )
   // If not, insert it the key+value into the table
   if ( rbtree_iter != rbtree.end() )
   {
-    #ifdef PERSISTENT
     mcsim_tx_begin();
+    #ifdef BASELINE
     mcsim_log_begin();
 
     #ifdef REDOLOG
@@ -65,18 +63,18 @@ void rbtree_insert( int arr_size, int num_iterations )
     mcsim_mem_fence();
     mcsim_log_end();
     mcsim_mem_fence();
-    #endif // PERSISTENT
+    #endif // BASELINE
     
     rbtree.insert( str_pair( key, value ) );
-    #ifdef PERSISTENT
     mcsim_tx_end();
+    #ifdef CLWB
     mcsim_clwb( &( rbtree[key] ) );
-    #endif // PERSISTENT
+    #endif // CLWB
   }
   else
   {
-    #ifdef PERSISTENT
     mcsim_tx_begin();
+    #ifdef BASELINE
     mcsim_log_begin();
 
     #ifdef REDOLOG
@@ -89,13 +87,13 @@ void rbtree_insert( int arr_size, int num_iterations )
     mcsim_mem_fence();
     mcsim_log_end();
     mcsim_mem_fence();
-    #endif // PERSISTENT
+    #endif // BASELINE
     
     rbtree.insert( str_pair( key, value ) );
-    #ifdef PERSISTENT
     mcsim_tx_end();
+    #ifdef CLWB
     mcsim_clwb( &( rbtree[key] ) );
-    #endif // PERSISTENT
+    #endif // CLWB
   }
 }
 
@@ -112,8 +110,8 @@ void rbtree_delete( int arr_size, int num_iterations )
   // If so, delete the key+value pair from the rbtree
   if ( rbtree_iter != rbtree.end() )
   {
-    #ifdef PERSISTENT
     mcsim_tx_begin();
+    #ifdef BASELINE
     mcsim_log_begin();
 
     #ifdef REDOLOG
@@ -126,12 +124,10 @@ void rbtree_delete( int arr_size, int num_iterations )
     mcsim_mem_fence();
     mcsim_log_end();
     mcsim_mem_fence();
-    #endif // PERSISTENT
+    #endif // BASELINE
 
     rbtree.erase( rbtree_iter );
-    #ifdef PERSISTENT
     mcsim_tx_end();
-    #endif // PERSISTENT
   }
 }
 

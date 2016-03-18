@@ -13,14 +13,12 @@ using namespace std;
 typedef pair< int, int > int_pair;
 map< int, int > rbtree;
 
-#ifdef PERSISTENT
 #ifdef REDOLOG
 vector<int_pair> redo_log;
 #endif // REDOLOG
 #ifdef UNDOLOG
 vector<int_pair> undo_log;
 #endif // UNDOLOG
-#endif // PERSISTENT
 
 void rbtree_insert( int arr_size )
 {
@@ -36,8 +34,8 @@ void rbtree_insert( int arr_size )
   // If not, insert it the key+value into the table
   if ( rbtree_iter != rbtree.end() )
   {
-    #ifdef PERSISTENT
     mcsim_tx_begin();
+    #ifdef BASELINE
     mcsim_log_begin();
 
     #ifdef REDOLOG
@@ -50,18 +48,18 @@ void rbtree_insert( int arr_size )
     mcsim_mem_fence();
     mcsim_log_end();
     mcsim_mem_fence();
-    #endif // PERSISTENT
+    #endif // BASELINE
     
     rbtree.insert( int_pair( key, value ) );
-    #ifdef PERSISTENT
     mcsim_tx_end();
+    #ifdef CLWB
     mcsim_clwb( &( rbtree[key] ) );
-    #endif // PERSISTENT
+    #endif // CLWB
   }
   else
   {
-    #ifdef PERSISTENT
     mcsim_tx_begin();
+    #ifdef BASELINE
     mcsim_log_begin();
 
     #ifdef REDOLOG
@@ -74,13 +72,13 @@ void rbtree_insert( int arr_size )
     mcsim_mem_fence();
     mcsim_log_end();
     mcsim_mem_fence();
-    #endif // PERSISTENT
+    #endif // BASELINE
     
     rbtree.insert( int_pair( key, value ) );
-    #ifdef PERSISTENT
     mcsim_tx_end();
+    #ifdef CLWB
     mcsim_clwb( &( rbtree[key] ) );
-    #endif // PERSISTENT
+    #endif // CLWB
   }
 }
 
@@ -97,8 +95,8 @@ void rbtree_delete( int arr_size )
   // If so, delete the key+value pair from the rbtree
   if ( rbtree_iter != rbtree.end() )
   {
-    #ifdef PERSISTENT
     mcsim_tx_begin();
+    #ifdef BASELINE
     mcsim_log_begin();
 
     #ifdef REDOLOG
@@ -111,12 +109,10 @@ void rbtree_delete( int arr_size )
     mcsim_mem_fence();
     mcsim_log_end();
     mcsim_mem_fence();
-    #endif // PERSISTENT
+    #endif // BASELINE
 
     rbtree.erase( rbtree_iter );
-    #ifdef PERSISTENT
     mcsim_tx_end();
-    #endif // PERSISTENT
   }
 }
 

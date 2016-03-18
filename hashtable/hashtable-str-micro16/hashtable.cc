@@ -14,14 +14,12 @@ using namespace std;
 typedef pair< string, string > str_pair;
 unordered_map< string, string > hashtable;
 
-#ifdef PERSISTENT
 #ifdef REDOLOG
 vector<str_pair> redo_log;
 #endif // REDOLOG
 #ifdef UNDOLOG
 vector<str_pair> undo_log;
 #endif // UNDOLOG
-#endif // PERSISTENT
 
 string random_string( size_t length ) {
   static const char alphanum[] =
@@ -52,8 +50,8 @@ void hash_insert( int arr_size, int num_iterations )
   // If not, insert it the key+value into the table
   if ( hash_iter != hashtable.end() )
   {
-    #ifdef PERSISTENT
     mcsim_tx_begin();
+    #ifdef BASELINE
     mcsim_log_begin();
 
     #ifdef REDOLOG
@@ -66,18 +64,18 @@ void hash_insert( int arr_size, int num_iterations )
     mcsim_mem_fence();
     mcsim_log_end();
     mcsim_mem_fence();
-    #endif // PERSISTENT
+    #endif // BASELINE
     
     hashtable.insert( str_pair( key, value ) );
-    #ifdef PERSISTENT
     mcsim_tx_end();
+    #ifdef CLWB
     mcsim_clwb( &( hashtable[key] ) );
-    #endif // PERSISTENT
+    #endif // CLWB
   }
   else
   {
-    #ifdef PERSISTENT
     mcsim_tx_begin();
+    #ifdef BASELINE
     mcsim_log_begin();
 
     #ifdef REDOLOG
@@ -90,13 +88,13 @@ void hash_insert( int arr_size, int num_iterations )
     mcsim_mem_fence();
     mcsim_log_end();
     mcsim_mem_fence();
-    #endif // PERSISTENT
+    #endif // BASELINE
     
     hashtable.insert( str_pair( key, value ) );
-    #ifdef PERSISTENT
     mcsim_tx_end();
+    #ifdef CLWB
     mcsim_clwb( &( hashtable[key] ) );
-    #endif // PERSISTENT
+    #endif // CLWB
   }
 }
 
@@ -113,8 +111,8 @@ void hash_delete( int arr_size, int num_iterations )
   // If so, delete the key+value pair from the hashtable
   if ( hash_iter != hashtable.end() )
   {
-    #ifdef PERSISTENT
     mcsim_tx_begin();
+    #ifdef BASELINE
     mcsim_log_begin();
 
     #ifdef REDOLOG
@@ -127,12 +125,10 @@ void hash_delete( int arr_size, int num_iterations )
     mcsim_mem_fence();
     mcsim_log_end();
     mcsim_mem_fence();
-    #endif // PERSISTENT
+    #endif // BASELINE
 
     hashtable.erase( hash_iter );
-    #ifdef PERSISTENT
     mcsim_tx_end();
-    #endif // PERSISTENT
   }
 }
 

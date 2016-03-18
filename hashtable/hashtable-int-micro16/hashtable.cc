@@ -14,14 +14,12 @@ using namespace std;
 typedef pair< int, int > int_pair;
 unordered_map< int, int > hashtable;
 
-#ifdef PERSISTENT
 #ifdef REDOLOG
 vector<int_pair> redo_log;
 #endif // REDOLOG
 #ifdef UNDOLOG
 vector<int_pair> undo_log;
 #endif // UNDOLOG
-#endif // PERSISTENT
 
 void hash_insert( int arr_size )
 {
@@ -37,8 +35,8 @@ void hash_insert( int arr_size )
   // If not, insert it the key+value into the table
   if ( hash_iter != hashtable.end() )
   {
-    #ifdef PERSISTENT
     mcsim_tx_begin();
+    #ifdef BASELINE
     mcsim_log_begin();
 
     #ifdef REDOLOG
@@ -51,18 +49,18 @@ void hash_insert( int arr_size )
     mcsim_mem_fence();
     mcsim_log_end();
     mcsim_mem_fence();
-    #endif // PERSISTENT
+    #endif // BASELINE
     
     hashtable.insert( int_pair( key, value ) );
-    #ifdef PERSISTENT
     mcsim_tx_end();
+    #ifdef CLWB
     mcsim_clwb( &( hashtable[key] ) );
-    #endif // PERSISTENT
+    #endif // CLWB
   }
   else
   {
-    #ifdef PERSISTENT
     mcsim_tx_begin();
+    #ifdef BASELINE
     mcsim_log_begin();
 
     #ifdef REDOLOG
@@ -75,13 +73,13 @@ void hash_insert( int arr_size )
     mcsim_mem_fence();
     mcsim_log_end();
     mcsim_mem_fence();
-    #endif // PERSISTENT
+    #endif // BASELINE
     
     hashtable.insert( int_pair( key, value ) );
-    #ifdef PERSISTENT
     mcsim_tx_end();
+    #ifdef CLWB
     mcsim_clwb( &( hashtable[key] ) );
-    #endif // PERSISTENT
+    #endif // CLWB
   }
 }
 
@@ -98,8 +96,8 @@ void hash_delete( int arr_size )
   // If so, delete the key+value pair from the hashtable
   if ( hash_iter != hashtable.end() )
   {
-    #ifdef PERSISTENT
     mcsim_tx_begin();
+    #ifdef BASELINE
     mcsim_log_begin();
 
     #ifdef REDOLOG
@@ -112,12 +110,10 @@ void hash_delete( int arr_size )
     mcsim_mem_fence();
     mcsim_log_end();
     mcsim_mem_fence();
-    #endif // PERSISTENT
+    #endif // BASELINE
 
     hashtable.erase( hash_iter );
-    #ifdef PERSISTENT
     mcsim_tx_end();
-    #endif // PERSISTENT
   }
 }
 
