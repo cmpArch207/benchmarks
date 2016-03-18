@@ -131,14 +131,12 @@ int main(int argc, char **argv)
     
   } // Initialization done
 
-  #ifdef PERSISTENT
   #ifdef UNDOLOG
   map< int, pair<string, string> > undolog;
   #endif // UNDOLOG
   #ifdef REDOLOG
   map< int, pair<string, string> > redolog;
   #endif // REDOLOG
-  #endif // PERSISTENT
 
   mcsim_skip_instrs_end();
   
@@ -163,8 +161,8 @@ int main(int argc, char **argv)
       pair<string, string> entry(src_node, other_node);
       mcsim_skip_instrs_end();
    
-      #ifdef PERSISTENT
       mcsim_tx_begin();
+      #ifdef BASELINE
       mcsim_log_begin();      
       //mcsim_skip_instrs_begin();
       #ifdef UNDOLOG
@@ -177,13 +175,13 @@ int main(int argc, char **argv)
       mcsim_mem_fence();
       mcsim_log_end();
       mcsim_mem_fence();
-      #endif // PERSISTENT
+      #endif // BASELINE
 
       tie(e, inserted) = add_edge(u, v, g);
-      #ifdef PERSISTENT
       mcsim_tx_end();
+      #ifdef CLWB
       //mcsim_clwb( &( tie( e, inserted ) ) );
-      #endif // PERSISTENT
+      #endif // CLWB
 
       if (inserted) {
 	connecting_movie[e] = movie_name;
@@ -201,8 +199,8 @@ int main(int argc, char **argv)
       entry = make_pair(src_node, other_node);
       mcsim_skip_instrs_end();
       
-      #ifdef PERSISTENT 
       mcsim_tx_begin();
+      #ifdef BASELINE
       mcsim_log_begin();      
       //mcsim_skip_instrs_begin();
       #ifdef UNDOLOG
@@ -215,12 +213,10 @@ int main(int argc, char **argv)
       mcsim_mem_fence();
       mcsim_log_end();
       mcsim_mem_fence();
-      #endif // PERSISTENT
+      #endif // BASELINE
 
       remove_edge(u, v, g);
-      #ifdef PERSISTENT 
       mcsim_tx_end();
-      #endif // PERSISTENT
 
       cout << src_node << " and " << other_node
 	   << " now disconnected." << endl;              
@@ -229,7 +225,7 @@ int main(int argc, char **argv)
   }
   
   // make sure log structures are not dummy, will not discard by compile+O3
-  #ifdef PERSISTENT 
+  #ifdef BASELINE 
   mcsim_skip_instrs_begin();
   #ifdef UNDOLOG
   cout << "dummy: undolog.size= " << undolog.size() << endl;
@@ -238,7 +234,7 @@ int main(int argc, char **argv)
   cout << "dummy: redolog.size= " << redolog.size() << endl;
   #endif // REDOLOG
   mcsim_skip_instrs_end();
-  #endif // PERSISTENT
+  #endif // BASELINE
       
   return 0;
 }
