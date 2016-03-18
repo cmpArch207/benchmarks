@@ -1,9 +1,23 @@
-TARGET = btree
-TARGET_REDO = $(TARGET)-pm-redo
-TARGET_UNDO = $(TARGET)-pm-undo
-OBJS = $(TARGET).o driver.o
-OBJS_REDO = $(TARGET_REDO).o driver-pm-redo.o
-OBJS_UNDO = $(TARGET_UNDO).o driver-pm-redo.o
+BMARK = btree
+SRC   = driver
+TARGET_REDO_BASE      = $(BMARK)-redo-base
+TARGET_UNDO_BASE      = $(BMARK)-undo-base
+TARGET_REDO_CLWB_BASE = $(BMARK)-redo-clwb-base
+TARGET_UNDO_CLWB_BASE = $(BMARK)-undo-clwb-base
+TARGET_WAL            = $(BMARK)-wal
+TARGET_FWB            = $(BMARK)-fwb
+
+TARGET = $(TARGET_REDO_BASE) $(TARGET_UNDO_BASE) $(TARGET_REDO_CLWB_BASE) $(TARGET_UNDO_CLWB_BASE) $(TARGET_WAL) $(TARGET_FWB)              
+
+OBJS_BMARK          = $(BMARK).o
+OBJS_REDO_BASE      = $(SRC)-redo-base.o 
+OBJS_UNDO_BASE      = $(SRC)-undo-base.o
+OBJS_REDO_CLWB_BASE = $(SRC)-redo-clwb-base.o
+OBJS_UNDO_CLWB_BASE = $(SRC)-undo-clwb-base.o
+OBJS_WAL            = $(SRC)-wal.o
+OBJS_FWB            = $(SRC)-fwb.o
+
+OBJS = $(OBJS_REDO_BASE) $(OBJS_UNDO_BASE) $(OBJS_REDO_CLWB_BASE) $(OBJS_UNDO_CLWB_BASE) $(OBJS_WAL) $(OBJS_FWB)              
 #CFLAGS = -O0 -g -ggdb -w  -Wall
 CFLAGS = -O3 -w -g -fno-builtin -std=c++11
 #LDFLAGS = -lpthread 
@@ -11,16 +25,7 @@ LDFLAGS = /home/mogleari/research/pin-2.11/source/tools/Pthread/libmypthread.a
 WRAPPER_OBJ = /home/mogleari/research/pin-2.11/source/tools/Apps/mcsim_wrapper.o
 CC = g++ 
 
-all: $(TARGET) $(TARGET_REDO) $(TARGET_UNDO)
-
-$(TARGET): $(OBJS) $(WRAPPER_OBJ)
-	$(CC) -static $(OBJS) $(WRAPPER_OBJ) $(CFLAGS) -o $(TARGET) $(LDFLAGS)
-
-$(TARGET_REDO): $(OBJS_REDO) $(WRAPPER_OBJ)
-	$(CC) -DPERSISTENT -DREDOLOG -static $(OBJS_REDO) $(WRAPPER_OBJ) $(CFLAGS) -o $(TARGET_REDO) $(LDFLAGS)
-
-$(TARGET_UNDO): $(OBJS_UNDO) $(WRAPPER_OBJ)
-	$(CC) -DPERSISTENT -DUNDOLOG -static $(OBJS_UNDO) $(WRAPPER_OBJ) $(CFLAGS) -o $(TARGET_UNDO) $(LDFLAGS)
+all: $(TARGET) 
 
 .SUFFIXES:
 .SUFFIXES:	.o .c .C .h .H
@@ -28,14 +33,35 @@ $(TARGET_UNDO): $(OBJS_UNDO) $(WRAPPER_OBJ)
 $(WRAPPER_OBJ): %.o: %.c
 	gcc -O0 -g -c $< -o $@
 
-$(OBJS): %.o: %.cc
+$(OBJS_REDO_BASE):      DFLAGS = -DBASELINE -DREDO 
+$(OBJS_UNDO_BASE):      DFLAGS = -DBASELINE -DUNDO
+$(OBJS_REDO_CLWB_BASE): DFLAGS = -DBASELINE -DREDO -DCLWB
+$(OBJS_UNDO_CLWB_BASE): DFLAGS = -DBASELINE -DUNDO -DCLWB
+$(OBJS_WAL):            DFLAGS = -DCLWB
+$(OBJS_FWB):            DFLAGS = 
+
+$(OBJS_BMARK): %.o: $(BMARK).cc
 	$(CC) -c $(CFLAGS) -c $< -o $@
 
-$(OBJS_REDO): %-pm-redo.o: %.cc
-	$(CC) -DPERSISTENT -DREDOLOG -c $(CFLAGS) -c $< -o $@
+$(OBJS): %.o: $(SRC).cc
+	$(CC) -c $(CFLAGS) $(DFLAGS) -c $< -o $@
 
-$(OBJS_UNDO): %-pm-undo.o: %.cc
-	$(CC) -DPERSISTENT -DUNDOLOG -c $(CFLAGS) -c $< -o $@
+$(TARGET_REDO_BASE):      DFLAGS = -DBASELINE -DREDO 
+$(TARGET_UNDO_BASE):      DFLAGS = -DBASELINE -DUNDO
+$(TARGET_REDO_CLWB_BASE): DFLAGS = -DBASELINE -DREDO -DCLWB
+$(TARGET_UNDO_CLWB_BASE): DFLAGS = -DBASELINE -DUNDO -DCLWB
+$(TARGET_WAL):            DFLAGS = -DCLWB
+$(TARGET_FWB):            DFLAGS = 
+
+$(TARGET_REDO_BASE):      OBJ = $(OBJS_REDO_BASE)    
+$(TARGET_UNDO_BASE):      OBJ = $(OBJS_UNDO_BASE)    
+$(TARGET_REDO_CLWB_BASE): OBJ = $(OBJS_REDO_CLWB_BASE)
+$(TARGET_UNDO_CLWB_BASE): OBJ = $(OBJS_UNDO_CLWB_BASE)
+$(TARGET_WAL):            OBJ = $(OBJS_WAL)     
+$(TARGET_FWB):            OBJ = $(OBJS_FWB)     
+
+$(TARGET): $(OBJS_BMARK) $(OBJS) $(WRAPPER_OBJ)
+	$(CC) -static $(OBJS_BMARK) $(OBJ) $(WRAPPER_OBJ) $(CFLAGS) $(DFLAGS) $(LDFLAGS) -o $@
 
 clean:
-	rm -f *.o $(TARGET) $(OBJS) $(OBJS_REDO) $(TARGET_REDO) $(OBJS_UNDO) $(TARGET_UNDO) pin*.log
+	rm -f *.o $(TARGET) $(OBJS) pin*.log

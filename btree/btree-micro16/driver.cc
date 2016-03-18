@@ -118,8 +118,8 @@ double bt_get(btree_impl* pbt,
     insert_v[num % (value_size - 1)] = 'a' + (r % 26);
     mcsim_skip_instrs_end();
     
-    #ifdef PERSISTENT
     mcsim_tx_begin();
+    #ifdef BASELINE
     mcsim_log_begin();
     #ifdef UNDOLOG
     undolog.insert(Char_Pair(k, insert_v));
@@ -132,13 +132,13 @@ double bt_get(btree_impl* pbt,
     mcsim_mem_fence();
     mcsim_log_end();
     mcsim_mem_fence();
-    #endif // PERSISTENT
+    #endif // BASELINE
     
     pbt->insert(k, insert_v);
-    #ifdef PERSISTENT
     mcsim_tx_end();
+    #ifdef CLWB
     mcsim_clwb( &( pbt->find( k ).data() ) );
-    #endif // PERSISTENT
+    #endif // CLWB
 
     clock_gettime(CLOCK_REALTIME, &insert_ts2);
     get_time += diff_clocktime(&insert_ts1, &insert_ts2);
@@ -146,8 +146,8 @@ double bt_get(btree_impl* pbt,
     printf("key found, remove it: %s\n", k);        
     clock_gettime(CLOCK_REALTIME, &del_ts1);
 
-    #ifdef PERSISTENT
     mcsim_tx_begin();
+    #ifdef BASELINE
     mcsim_log_begin();
     #ifdef UNDOLOG
     undolog.insert(Char_Pair(k, v));
@@ -160,12 +160,10 @@ double bt_get(btree_impl* pbt,
     mcsim_mem_fence();
     mcsim_log_end();
     mcsim_mem_fence();
-    #endif // PERSISTENT
+    #endif // BASELINE
 
     pbt->erase(k);
-    #ifdef PERSISTENT
     mcsim_tx_end();
-    #endif // PERSISTENT
     
     clock_gettime(CLOCK_REALTIME, &del_ts2);
     get_time += diff_clocktime(&del_ts1, &del_ts2);
