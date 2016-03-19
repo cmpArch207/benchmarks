@@ -4,5 +4,11 @@ hashtable/*/hashtable
 rbtree/*/rbtree
 sps/*/sps
 btree/*/btree
-SSCA2/*/SSCA2
+ssca2/*/SSCA2
 sixdegree/*/sixdegs
+hashtable/*/hashtable-*
+rbtree/*/rbtree-*
+sps/*/sps-*
+btree/*/btree-*
+ssca2/*/SSCA2-*
+sixdegree/*/sixdegs-*
