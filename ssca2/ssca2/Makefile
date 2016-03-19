@@ -8,11 +8,11 @@ OBJS = SSCA2.o init.o utils.o genScalData.o gen2DTorus.o \
     computeGraph.o getStartLists.o findSubGraphs.o  \
     betweennessCentrality.o
 
-OBJS_REDO = SSCA2-pm-redo.o init-pm-redo.o utils-pm-redo.o genScalData-pm-redo.o gen2DTorus-pm-redo.o \
+OBJS_REDO = SSCA2.o init.o utils.o genScalData.o gen2DTorus.o \
     computeGraph-pm-redo.o getStartLists-pm-redo.o findSubGraphs-pm-redo.o  \
     betweennessCentrality-pm-redo.o
 
-OBJS_UNDO = SSCA2-pm-undo.o init-pm-undo.o utils-pm-undo.o genScalData-pm-undo.o gen2DTorus-pm-undo.o \
+OBJS_UNDO = SSCA2.o init.o utils.o genScalData.o gen2DTorus.o \
     computeGraph-pm-undo.o getStartLists-pm-undo.o findSubGraphs-pm-undo.o  \
     betweennessCentrality-pm-undo.o
 

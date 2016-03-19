@@ -70,8 +70,8 @@ double getStartLists(graph* G, edge** maxIntWtListPtr,
   for (i=0; i<n; i++) {
     for (j=G->numEdges[i]; j<G->numEdges[i+1]; j++) {
       if (G->weight[j] > local_max[tid]) {
-  #ifdef PERSISTENT
   mcsim_tx_begin();
+  #ifdef BASELINE
 	mcsim_log_begin();
 	//mcsim_skip_instrs_begin();
   #ifdef UNDOLOG
@@ -89,17 +89,17 @@ double getStartLists(graph* G, edge** maxIntWtListPtr,
 	mcsim_mem_fence();
 	mcsim_log_end();
 	mcsim_mem_fence();
-  #endif // PERSISTENT
+  #endif // BASELINE
 	
 	local_max[tid] = G->weight[j];
-  #ifdef PERSISTENT
   mcsim_tx_end();
+  #ifdef CLWB
   mcsim_clwb( &( local_max[tid] ) );
-  #endif // PERSISTENT
+  #endif // CLWB
 	pCount = 0;
 	
-  #ifdef PERSISTENT
   mcsim_tx_begin();
+  #ifdef BASELINE
 	mcsim_log_begin();
 	//mcsim_skip_instrs_begin();
 
@@ -124,35 +124,33 @@ double getStartLists(graph* G, edge** maxIntWtListPtr,
 	mcsim_mem_fence();
 	mcsim_log_end();
 	mcsim_mem_fence();
-  #endif // PERSISTENT
+  #endif // BASELINE
 
 	pList[pCount].startVertex = i;
 	pList[pCount].endVertex = G->endV[j];
 	pList[pCount].w = local_max[tid];
 	pList[pCount].e = j;
-  #ifdef PERSISTENT
   mcsim_tx_end();
+  #ifdef CLWB
   mcsim_clwb( &( pList[pCount].startVertex ) );
   mcsim_clwb( &( pList[pCount].endVertex ) );
   mcsim_clwb( &( pList[pCount].w ) );
   mcsim_clwb( &( pList[pCount].e ) );
-  #endif // PERSISTENT
+  #endif // CLWB
 	pCount++;
 	
 	// make sure undolog and redolog data structures are not discarded by compiler
-  #ifdef PERSISTENT
 	mcsim_skip_instrs_begin();
   #ifdef UNDOLOG
-	printf("%d\n", (sizeof undolog_local_max) + (sizeof undolog_pList));      
+	printf("%d\n", (int)((sizeof undolog_local_max) + (sizeof undolog_pList)));      
 	#endif // UNDOLOG
   #ifdef REDOLOG
-	printf("%d\n", (sizeof redolog_local_max) + (sizeof redolog_pList));
+	printf("%d\n", (int)((sizeof redolog_local_max) + (sizeof redolog_pList)));
 	#endif // REDOLOG
 	mcsim_skip_instrs_end();
-  #endif // PERSISTENT 
       } else if (G->weight[j] == local_max[tid]) {
-  #ifdef PERSISTENT
   mcsim_tx_begin();
+  #ifdef BASELINE
 	mcsim_log_begin();
 	//mcsim_skip_instrs_begin();
   
@@ -177,32 +175,30 @@ double getStartLists(graph* G, edge** maxIntWtListPtr,
 	mcsim_mem_fence();
 	mcsim_log_end();
 	mcsim_mem_fence();
-  #endif // PERSISTENT
+  #endif // BASELINE
 	
 	pList[pCount].startVertex = i;
 	pList[pCount].endVertex = G->endV[j];
 	pList[pCount].w = local_max[tid];
 	pList[pCount].e = j;
-  #ifdef PERSISTENT
   mcsim_tx_end();
+  #ifdef CLWB
   mcsim_clwb( &( pList[pCount].startVertex ) );
   mcsim_clwb( &( pList[pCount].endVertex ) );
   mcsim_clwb( &( pList[pCount].w ) );
   mcsim_clwb( &( pList[pCount].e ) );
-  #endif // PERSISTENT
+  #endif // CLWB
 	pCount++; 
 
 	// make sure undolog and redolog data structures are not discarded by compiler
-  #ifdef PERSISTENT
 	mcsim_skip_instrs_begin();
   #ifdef UNDOLOG
-	printf("%d\n", (sizeof undolog_pList));
+	printf("%d\n", (int)(sizeof undolog_pList));
 	#endif // UNDOLOG
   #ifdef REDOLOG
-	printf("%d\n", (sizeof redolog_pList));
+	printf("%d\n", (int)(sizeof redolog_pList));
 	#endif // REDOLOG
 	mcsim_skip_instrs_end();
-  #endif // PERSISTENT 
       }
     }
   }
@@ -272,8 +268,8 @@ double getStartLists(graph* G, edge** maxIntWtListPtr,
 #endif
   
   for (j=p_start[tid]; j<p_end[tid]; j++) {
-    #ifdef PERSISTENT
     mcsim_tx_begin();
+    #ifdef BASELINE
     mcsim_log_begin();
     //mcsim_skip_instrs_begin();
 
@@ -298,30 +294,28 @@ double getStartLists(graph* G, edge** maxIntWtListPtr,
     mcsim_mem_fence();
     mcsim_log_end();
     mcsim_mem_fence();
-    #endif // PERSISTENT
+    #endif // BASELINE
 
     (maxIntWtList[j]).startVertex = pList[j-p_start[tid]].startVertex;
     (maxIntWtList[j]).endVertex = pList[j-p_start[tid]].endVertex;
     (maxIntWtList[j]).e = pList[j-p_start[tid]].e;
     (maxIntWtList[j]).w = pList[j-p_start[tid]].w;
-    #ifdef PERSISTENT
     mcsim_tx_end();
+    #ifdef CLWB
     mcsim_clwb( &( (maxIntWtList[j]).startVertex ) );
     mcsim_clwb( &( (maxIntWtList[j]).endVertex ) );
     mcsim_clwb( &( (maxIntWtList[j]).e ) );
     mcsim_clwb( &( (maxIntWtList[j]).w ) );
-    #endif // PERSISTENT
+    #endif // CLWB
     
-    #ifdef PERSISTENT
     mcsim_skip_instrs_begin();
     #ifdef UNDOLOG
-    printf("%d\n", (sizeof undolog_maxIntWtList));
+    printf("%d\n", (int)(sizeof undolog_maxIntWtList));
     #endif // UNDOLOG
     #ifdef REDOLOG
-    printf("%d\n", (sizeof redolog_maxIntWtList));
+    printf("%d\n", (int)(sizeof redolog_maxIntWtList));
     #endif // REDOLOG
     mcsim_skip_instrs_end();
-    #endif // PERSISTENT
   } 
   
   

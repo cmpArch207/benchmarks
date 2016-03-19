@@ -104,13 +104,16 @@ double findSubGraphs(graph* G, edge* maxIntWtList, int maxIntWtListSize)
       for (vert=start[phase_num]; vert<start[phase_num+1]; vert++) {
 	
 	v = S[vert];
-  #ifdef PERSISTENT
 	mcsim_skip_instrs_begin();
-	VERT_T *undolog_pS, *redolog_pS;
+  #ifdef UNDOLOG
+	VERT_T *undolog_pS;
 	undolog_pS = (VERT_T *) malloc(pS_size*sizeof(VERT_T));
+	#endif // UNDOLOG
+  #ifdef REDOLOG
+  VERT_T *redolog_pS;
 	redolog_pS = (VERT_T *) malloc(pS_size*sizeof(VERT_T));
+	#endif // REDOLOG
 	mcsim_skip_instrs_end();
-  #endif
 	
 	for (j=G->numEdges[v]; j<G->numEdges[v+1]; j++) {	  
 	  w = G->endV[j]; 
@@ -130,8 +133,8 @@ double findSubGraphs(graph* G, edge* maxIntWtList, int maxIntWtListSize)
 		pS = pSt;
 		pS_size = 2*pS_size;
 	      }
-        #ifdef PERSISTENT
         mcsim_tx_begin();
+        #ifdef BASELINE
 	      mcsim_log_begin();
 	      //mcsim_skip_instrs_begin();
         #ifdef UNDOLOG
@@ -144,12 +147,12 @@ double findSubGraphs(graph* G, edge* maxIntWtList, int maxIntWtListSize)
 	      mcsim_mem_fence();	      
 	      mcsim_log_end();
 	      mcsim_mem_fence();
-        #endif // PERSISTENT
+        #endif // BASELINE
 	      pS[pCount++] = w;
-        #ifdef PERSISTENT
         mcsim_tx_end();
+        #ifdef CLWB
         mcsim_clwb( &( pS[pCount-1] ) );
-        #endif // PERSISTENT
+        #endif // CLWB
 	    }
 #ifdef _OPENMP
 	    omp_unset_lock(&vLock[w]);
@@ -158,11 +161,14 @@ double findSubGraphs(graph* G, edge* maxIntWtList, int maxIntWtListSize)
 	}
 	
 	// make sure undolog and redolog data structures are not discarded by compiler
-  #ifdef PERSISTENT
 	mcsim_skip_instrs_begin();
-	printf("%d\n", (sizeof undolog_pS) + (sizeof redolog_pS));      
+  #ifdef UNDOLOG
+	printf("%d\n", (int)(sizeof undolog_pS));      
+  #endif // UNDOLOG
+  #ifdef REDOLOG
+	printf("%d\n", (int)(sizeof redolog_pS));      
+  #endif // REDOLOG
 	mcsim_skip_instrs_end();
-  #endif // PERSISTENT
       }
       
       
@@ -188,17 +194,20 @@ double findSubGraphs(graph* G, edge* maxIntWtList, int maxIntWtListSize)
 #ifdef _OPENMP
 #pragma omp barrier
 #endif
-      #ifdef PERSISTENT
       mcsim_skip_instrs_begin();
-      VERT_T *undolog_S, *redolog_S;
+      #ifdef UNDOLOG
+      VERT_T *undolog_S;
       undolog_S = (VERT_T *) malloc(n*sizeof(VERT_T));
+      #endif // UNDOLOG
+      #ifdef REDOLOG
+      VERT_T *redolog_S;
       redolog_S = (VERT_T *) malloc(n*sizeof(VERT_T));
+      #endif // REDOLOG
       mcsim_skip_instrs_end();
-      #endif // PERSISTENT
 
       for (k = pSCount[tid]; k < pSCount[tid+1]; k++) {
-  #ifdef PERSISTENT
   mcsim_tx_begin();
+  #ifdef BASELINE
 	mcsim_log_begin();
 	//mcsim_skip_instrs_begin();
   #ifdef UNDOLOG
@@ -211,19 +220,22 @@ double findSubGraphs(graph* G, edge* maxIntWtList, int maxIntWtListSize)
 	mcsim_mem_fence();
 	mcsim_log_end();
 	mcsim_mem_fence();
-  #endif // PERSISTENT 
+  #endif // BASELINE 
 	S[k] = pS[k-pSCount[tid]];
-  #ifdef PERSISTENT
   mcsim_tx_end();
+  #ifdef CLWB
   mcsim_clwb( &( S[k] ) );
-  #endif // PERSISTENT 
+  #endif // CLWB
       } 
-      #ifdef PERSISTENT
       // make sure undolog and redolog data structures are not discarded by compiler
       mcsim_skip_instrs_begin();
-      printf("%d\n", (sizeof undolog_S) + (sizeof redolog_S));      
+      #ifdef UNDOLOG
+      printf("%d\n", (int)(sizeof undolog_S));      
+      #endif // UNDOLOG
+      #ifdef REDOLOG
+      printf("%d\n", (int)(sizeof redolog_S));      
+      #endif // REDOLOG
       mcsim_skip_instrs_end();
-      #endif // PERSISTENT
       
       
 #ifdef _OPENMP

@@ -203,9 +203,9 @@ double computeGraph(graph* G, graphSDG* SDGdata)
     // make sure undolog and redolog data structures are not discarded by compiler
     #ifdef PERSISTENT
     mcsim_skip_instrs_begin();
-    printf("%d\n", (sizeof undolog_u) + (sizeof undolog_j) +
+    printf("%d\n", (int)((sizeof undolog_u) + (sizeof undolog_j) +
 	   (sizeof undolog_endV) + (sizeof undolog_w) + (sizeof redolog_u) +
-	   (sizeof redolog_j) + (sizeof redolog_endV) + (sizeof redolog_w));    
+	   (sizeof redolog_j) + (sizeof redolog_endV) + (sizeof redolog_w)));    
     mcsim_skip_instrs_end();
     #endif // PERSISTENT
   }
@@ -268,7 +268,7 @@ double computeGraph(graph* G, graphSDG* SDGdata)
     // make sure undolog and redolog data structures are not discarded by compiler
     #ifdef PERSISTENT
     mcsim_skip_instrs_begin();
-    printf("%d\n", (sizeof undolog_G) + (sizeof redolog_G));      
+    printf("%d\n", (int)((sizeof undolog_G) + (sizeof redolog_G)));      
     mcsim_skip_instrs_end();
     #endif // PERSISTENT
   }

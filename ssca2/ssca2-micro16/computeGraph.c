@@ -164,8 +164,8 @@ double computeGraph(graph* G, graphSDG* SDGdata)
 #endif    
    
   for (i=0; i<m; i++) {
-    #ifdef PERSISTENT
     mcsim_skip_instrs_begin();
+    #if defined(UNDOLOG) || defined(REDOLOG)
     LONG_T undolog_u, redolog_u, undolog_j, redolog_j;
     VERT_T *undolog_endV, *redolog_endV;
     WEIGHT_T* undolog_w, *redolog_w;
@@ -173,8 +173,10 @@ double computeGraph(graph* G, graphSDG* SDGdata)
     redolog_w = (WEIGHT_T *) malloc(m*sizeof(WEIGHT_T));
     undolog_endV = (VERT_T *) malloc(m* sizeof(VERT_T));
     redolog_endV = (VERT_T *) malloc(m* sizeof(VERT_T));
+    #endif // UNDOLOG || REDOLOG
     mcsim_skip_instrs_end();
     mcsim_tx_begin(); 
+    #ifdef BASELINE
     mcsim_log_begin();
     //mcsim_skip_instrs_begin();
     #ifdef UNDOLOG
@@ -193,29 +195,29 @@ double computeGraph(graph* G, graphSDG* SDGdata)
     mcsim_mem_fence();
     mcsim_log_end();
     mcsim_mem_fence();
-    #endif // PERSISTENT
+    #endif // BASELINE
     
     u = SDGdata->startVertex[i];
     j = numEdges[u] + pos[i];
     endV[j] = SDGdata->endVertex[i];
     w[j] = SDGdata->weight[i]; 
 
-    #ifdef PERSISTENT
     mcsim_tx_end();
+    #ifdef CLWB
     mcsim_clwb( &( u ) );
     mcsim_clwb( &( j ) );
     mcsim_clwb( &( endV[j] ) );
     mcsim_clwb( &( w[j] ) );
-    #endif // PERSISTENT
+    #endif // CLWB
     
     // make sure undolog and redolog data structures are not discarded by compiler
-    #ifdef PERSISTENT
+    #if defined(UNDOLOG) || defined(REDOLOG)
     mcsim_skip_instrs_begin();
-    printf("%d\n", (sizeof undolog_u) + (sizeof undolog_j) +
+    printf("%d\n", (int)((sizeof undolog_u) + (sizeof undolog_j) +
 	   (sizeof undolog_endV) + (sizeof undolog_w) + (sizeof redolog_u) +
-	   (sizeof redolog_j) + (sizeof redolog_endV) + (sizeof redolog_w));    
+	   (sizeof redolog_j) + (sizeof redolog_endV) + (sizeof redolog_w)));    
     mcsim_skip_instrs_end();
-    #endif // PERSISTENT
+    #endif // UNDOLOG || REDOLOG
   }
   
 #ifdef DIAGNOSTIC
@@ -229,19 +231,18 @@ double computeGraph(graph* G, graphSDG* SDGdata)
 #endif         
   if (tid == 0) {      
     free(pos);
-    #ifdef PERSISTENT
     mcsim_skip_instrs_begin();
-    graph *undolog_G, *redolog_G;
     #ifdef UNDOLOG
-    undolog_G = (graph *) malloc(sizeof(graph));
+    graph *undolog_G;
     undolog_G = (graph *) malloc(sizeof(graph));
     #endif // UNDOLOG
     #ifdef REDOLOG
-    redolog_G = (graph *) malloc(sizeof(graph));
+    graph *redolog_G;
     redolog_G = (graph *) malloc(sizeof(graph));
     #endif // REDOLOG
     mcsim_skip_instrs_end();
     mcsim_tx_begin(); 
+    #ifdef BASELINE
     mcsim_log_begin();    
     //mcsim_skip_instrs_begin();
 
@@ -265,7 +266,7 @@ double computeGraph(graph* G, graphSDG* SDGdata)
     mcsim_mem_fence();
     mcsim_log_end();
     mcsim_mem_fence();
-    #endif // PERSISTENT
+    #endif // BASELINE
     
     G->n = n;
     G->m = m;
@@ -273,21 +274,24 @@ double computeGraph(graph* G, graphSDG* SDGdata)
     G->endV = endV;
     G->weight = w;
 
-    #ifdef PERSISTENT
     mcsim_tx_end();
+    #ifdef CLWB
     mcsim_clwb( &( G->n ) );
     mcsim_clwb( &( G->m ) );
     mcsim_clwb( &( G->numEdges ) );
     mcsim_clwb( &( G->endV ) );
     mcsim_clwb( &( G->weight ) );
-    #endif // PERSISTENT
+    #endif // CLWB
     
     // make sure undolog and redolog data structures are not discarded by compiler
-    #ifdef PERSISTENT
     mcsim_skip_instrs_begin();
-    printf("%d\n", (sizeof undolog_G) + (sizeof redolog_G));      
+    #ifdef UNDOLOG
+    printf("%d\n", (int)(sizeof undolog_G));      
+    #endif // UNDOLOG
+    #ifdef REDOLOG
+    printf("%d\n", (int)(sizeof redolog_G));      
+    #endif // REDOLOG
     mcsim_skip_instrs_end();
-    #endif // PERSISTENT
   }
   
 #ifdef _OPENMP    

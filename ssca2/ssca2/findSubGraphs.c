@@ -155,7 +155,7 @@ double findSubGraphs(graph* G, edge* maxIntWtList, int maxIntWtListSize)
 	// make sure undolog and redolog data structures are not discarded by compiler
   #ifdef PERSISTENT
 	mcsim_skip_instrs_begin();
-	printf("%d\n", (sizeof undolog_pS) + (sizeof redolog_pS));      
+	printf("%d\n", (int)((sizeof undolog_pS) + (sizeof redolog_pS)));      
 	mcsim_skip_instrs_end();
   #endif // PERSISTENT
       }
@@ -211,7 +211,7 @@ double findSubGraphs(graph* G, edge* maxIntWtList, int maxIntWtListSize)
       #ifdef PERSISTENT
       // make sure undolog and redolog data structures are not discarded by compiler
       mcsim_skip_instrs_begin();
-      printf("%d\n", (sizeof undolog_S) + (sizeof redolog_S));      
+      printf("%d\n", (int)((sizeof undolog_S) + (sizeof redolog_S)));      
       mcsim_skip_instrs_end();
       #endif // PERSISTENT
       

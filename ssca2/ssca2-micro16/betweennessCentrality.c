@@ -363,13 +363,16 @@ double betweennessCentrality(graph* G, DOUBLE_T* BC)
 #endif
     
     while (phase_num > 0) {
-      #ifdef PERSISTENT
       mcsim_skip_instrs_begin();
-      DOUBLE_T *undolog_BC, *redolog_BC;
+      #ifdef UNDOLOG
+      DOUBLE_T *undolog_BC;
       undolog_BC = (DOUBLE_T *) calloc(N, sizeof(DOUBLE_T));
+      #endif // UNDOLOG
+      #ifdef REDOLOG
+      DOUBLE_T *redolog_BC;
       redolog_BC = (DOUBLE_T *) calloc(N, sizeof(DOUBLE_T));
+      #endif // REDOLOG
       mcsim_skip_instrs_end();
-      #endif // PERSISTENT
 #ifdef _OPENMP        
 #pragma omp for
 #endif
@@ -385,8 +388,8 @@ double betweennessCentrality(graph* G, DOUBLE_T* BC)
 	  omp_unset_lock(&vLock[v]);
 #endif
 	}
-  #ifdef PERSISTENT
   mcsim_tx_begin();
+  #ifdef BASELINE
 	mcsim_log_begin();
 	//mcsim_skip_instrs_begin();
   #ifdef UNDOLOG
@@ -399,13 +402,13 @@ double betweennessCentrality(graph* G, DOUBLE_T* BC)
 	mcsim_mem_fence();
 	mcsim_log_end();
 	mcsim_mem_fence();
-  #endif // PERSISTENT
+  #endif // BASELINE
 	
 	BC[w] += del[w];
-  #ifdef PERSISTENT
   mcsim_tx_end();
+  #ifdef CLWB
   mcsim_clwb( &( BC[w] ) );
-  #endif // PERSISTENT
+  #endif // CLWB
       }
       
       phase_num--;
@@ -415,11 +418,14 @@ double betweennessCentrality(graph* G, DOUBLE_T* BC)
 #endif            
       
       // make sure undolog and redolog data structures are not discarded by compiler
-      #ifdef PERSISTENT
       mcsim_skip_instrs_begin();
-      printf("%d\n", (sizeof undolog_BC) + (sizeof redolog_BC));      
+      #ifdef UNDOLOG
+      printf("%d\n", (int)(sizeof undolog_BC));      
+      #endif // UNDOLOG
+      #ifdef REDOLOG
+      printf("%d\n", (int)(sizeof redolog_BC));      
+      #endif // REDOLOG
       mcsim_skip_instrs_end();
-      #endif // PERSISTENT 
     }
     
     mcsim_skip_instrs_begin();

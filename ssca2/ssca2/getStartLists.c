@@ -130,10 +130,10 @@ double getStartLists(graph* G, edge** maxIntWtListPtr,
   #ifdef PERSISTENT
 	mcsim_skip_instrs_begin();
   #ifdef UNDOLOG
-	printf("%d\n", (sizeof undolog_local_max) + (sizeof undolog_pList));      
+	printf("%d\n", (int)((sizeof undolog_local_max) + (sizeof undolog_pList)));      
 	#endif // UNDOLOG
   #ifdef REDOLOG
-	printf("%d\n", (sizeof redolog_local_max) + (sizeof redolog_pList));
+	printf("%d\n", (int)((sizeof redolog_local_max) + (sizeof redolog_pList)));
 	#endif // REDOLOG
 	mcsim_skip_instrs_end();
   #endif // PERSISTENT 
@@ -175,10 +175,10 @@ double getStartLists(graph* G, edge** maxIntWtListPtr,
   #ifdef PERSISTENT
 	mcsim_skip_instrs_begin();
   #ifdef UNDOLOG
-	printf("%d\n", (sizeof undolog_pList));
+	printf("%d\n", (int)(sizeof undolog_pList));
 	#endif // UNDOLOG
   #ifdef REDOLOG
-	printf("%d\n", (sizeof redolog_pList));
+	printf("%d\n", (int)(sizeof redolog_pList));
 	#endif // REDOLOG
 	mcsim_skip_instrs_end();
   #endif // PERSISTENT 
@@ -286,10 +286,10 @@ double getStartLists(graph* G, edge** maxIntWtListPtr,
     #ifdef PERSISTENT
     mcsim_skip_instrs_begin();
     #ifdef UNDOLOG
-    printf("%d\n", (sizeof undolog_maxIntWtList));
+    printf("%d\n", (int)(sizeof undolog_maxIntWtList));
     #endif // UNDOLOG
     #ifdef REDOLOG
-    printf("%d\n", (sizeof redolog_maxIntWtList));
+    printf("%d\n", (int)(sizeof redolog_maxIntWtList));
     #endif // REDOLOG
     mcsim_skip_instrs_end();
     #endif // PERSISTENT

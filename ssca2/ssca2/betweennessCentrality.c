@@ -412,7 +412,7 @@ double betweennessCentrality(graph* G, DOUBLE_T* BC)
       // make sure undolog and redolog data structures are not discarded by compiler
       #ifdef PERSISTENT
       mcsim_skip_instrs_begin();
-      printf("%d\n", (sizeof undolog_BC) + (sizeof redolog_BC));      
+      printf("%d\n", (int)((sizeof undolog_BC) + (sizeof redolog_BC)));      
       mcsim_skip_instrs_end();
       #endif // PERSISTENT 
     }
