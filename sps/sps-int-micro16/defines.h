@@ -10,7 +10,7 @@
 
 #define RAND_SEED 21312309
 #define ITEM_COUNT 1000000
-#define TOTAL_ITERATIONS 1000
+#define TOTAL_ITERATIONS 1024
 #define PROB 50
 
 extern "C" {

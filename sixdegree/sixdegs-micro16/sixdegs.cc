@@ -180,7 +180,7 @@ int main(int argc, char **argv)
       tie(e, inserted) = add_edge(u, v, g);
       mcsim_tx_end();
       #ifdef CLWB
-      //mcsim_clwb( &( tie( e, inserted ) ) );
+      mcsim_clwb( &( e ) );
       #endif // CLWB
 
       if (inserted) {
