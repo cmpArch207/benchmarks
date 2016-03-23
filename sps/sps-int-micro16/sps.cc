@@ -101,6 +101,9 @@ int main( int argc, char **argv )
     }
   }         
 
+  printf( "Running benchmark with %d items and %d swaps\n",
+    arr_size, num_swaps );
+
   sps_initialize( arr_size );
   mcsim_skip_instrs_end();
  

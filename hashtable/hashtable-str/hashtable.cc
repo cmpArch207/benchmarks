@@ -161,7 +161,7 @@ int main( int argc, char **argv )
       arr_size = atoi( argv[i+1] );
       ++i;
     }
-    else if ( strncmp( argv[i], "--ops", 5 ) == 0 ) 
+    else if ( strncmp( argv[i], "--get", 5 ) == 0 ) 
     {
       num_iterations = atoi( argv[i+1] );
       ++i;
@@ -171,7 +171,10 @@ int main( int argc, char **argv )
       printf( "Invalid parameters: '%s'\n", argv[i] );
       return -1;
     }
-  }         
+  }
+
+  printf( "Running benchmark with %d items and %d iterations\n",
+    arr_size, num_iterations );
 
   hash_initialize( arr_size, num_iterations );
   mcsim_skip_instrs_end();

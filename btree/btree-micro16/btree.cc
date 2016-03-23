@@ -37,7 +37,6 @@ int main(int argc, char **argv)
     printf("./btree --get <num of iterations> --count <btree scale> --size <value size>\n");    
     printf("btree scale: item count, default 10^6\n");
     printf("value size: size of each item, default 2048\n");
-    return 0;
   }
 
   int i, bench = GET_BENCH;
@@ -64,6 +63,9 @@ int main(int argc, char **argv)
       return -1;
     }
   }         
+
+  printf( "Running benchmark with %d items of size %d, and %d iterations\n",
+    item_count, value_size, total_iterations );
 
   btree_impl bt;   
   map< char*, char* > undolog, redolog;

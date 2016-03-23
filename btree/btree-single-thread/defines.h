@@ -14,7 +14,7 @@
 #define DEL_BENCH 2
 #define RAND_SEED 21312309
 #define ITEM_COUNT 1000000
-#define TOTAL_ITERATIONS 100
+#define TOTAL_ITERATIONS 1024
 
 using namespace std;
 

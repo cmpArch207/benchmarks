@@ -61,7 +61,6 @@ int main(int argc, char **argv)
     printf("(1) Search for a path of length no more than six between two vertices\n");
     printf("(2) Modify the graph by inserting and removing edges\n");
     printf("./sixdegs --search <num of iterations>\n");
-    return 0;
   }
 
   int i, bench = SEARCH_BENCH, total_iterations = TOTAL_ITERATIONS;
@@ -79,6 +78,8 @@ int main(int argc, char **argv)
     }
   }   
    
+  printf( "Running benchmark with %d iterations\n" total_iterations );
+
   ifstream datafile("input.dat");
   if (!datafile) {
     cerr << "No input.dat file" << endl;
