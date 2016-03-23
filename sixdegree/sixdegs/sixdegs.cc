@@ -78,7 +78,7 @@ int main(int argc, char **argv)
     }
   }   
    
-  printf( "Running benchmark with %d iterations\n" total_iterations );
+  printf( "Running benchmark with %d iterations\n", total_iterations );
 
   ifstream datafile("input.dat");
   if (!datafile) {
