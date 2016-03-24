@@ -10,7 +10,7 @@
 using namespace std;
 
 typedef pair< int, int > int_pair;
-vector<int> sps;
+vector<int> sps_vector;
 
 #ifdef PERSISTENT
 #ifdef REDOLOG
@@ -29,8 +29,8 @@ void sps_swap( int arr_size )
   int key1   = rand() % arr_size;
   while ( key1 == key0 )
     key1 = rand() % arr_size;
-  int value0 = sps[key0];
-  int value1 = sps[key1];
+  int value0 = sps_vector[key0];
+  int value1 = sps_vector[key1];
   mcsim_skip_instrs_end();
  
   #ifdef PERSISTENT
@@ -50,18 +50,18 @@ void sps_swap( int arr_size )
   mcsim_mem_fence();
   #endif // PERSISTENT
   
-  sps[key0] = value1;
-  sps[key1] = value0;
+  sps_vector[key0] = value1;
+  sps_vector[key1] = value0;
 }
 
 void sps_initialize( int arr_size )
 {
   srand( time( NULL ) );  
 
-  for ( int key = 0; key < arr_size; key++ )
+  for ( int i = 0; i < arr_size; i++ )
   {
     int value = rand();
-    sps[key] = value;
+    sps_vector.push_back( value );
   }
 }
 
