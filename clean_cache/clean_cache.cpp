@@ -13,8 +13,6 @@ class LongVec {
 		vector<int> vec;
 	public:
 		LongVec(const int &);
-		void increase();
-		void increase(const int &);
 		void streaming(const int &);
 		void rand_acc(const int &);  // random access
 		void show() const;
@@ -28,12 +26,12 @@ LongVec::LongVec(const int & size) {
 	}
 }
 
-void LongVec::increase() {
-	for (size_t i = 0; i < vec.size(); ++i) 
-		++vec.at(i);
-}
+//void LongVec::increase() {
+	//for (size_t i = 0; i < vec.size(); ++i) 
+		//++vec.at(i);
+//}
 
-void LongVec::increase(const int & loops) {
+void LongVec::streaming(const int & loops) {
 	size_t i, j;
 	for (i = 0, j = 0; i < loops; ++i, ++j) {
 		if (j >= vec.size()) j = 0;
@@ -47,14 +45,10 @@ void LongVec::show() const {
 	cout << endl;
 }
 
-void LongVec::streaming(const int & loops) {
-	increase(loops);
-}
-
 void LongVec::rand_acc(const int & loops) {
 	for (size_t i = 0; i < loops ; ++i) {
 		size_t pos = rand() % vec.size();
-		cout << "pos = " << pos << endl;
+		//cout << "pos = " << pos << endl;
 		++vec.at(pos);
 	}
 }
@@ -85,8 +79,8 @@ int main (int argc, char ** argv) {
 		}
 	}
 	
-	cout << "loops = " << loops;
-	cout << " size = " << size << endl;
+	//cout << "loops = " << loops;
+	//cout << " size = " << size << endl;
 
 	//skip the initialization stage
 	mcsim_skip_instrs_begin();
@@ -96,12 +90,12 @@ int main (int argc, char ** argv) {
 	mcsim_skip_instrs_end();
 	//////////
 	
-	V.show();
+	//V.show();
 
 	V.streaming(loops);
+	//V.rand_acc(loops);
 
-
-	V.show();
+	//V.show();
 
 	return 0;
 }
