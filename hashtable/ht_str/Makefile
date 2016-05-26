@@ -1,5 +1,7 @@
-CPPSRC   = hashtable_str.cpp sync.cpp np_ht.cpp
-EXECBIN = hashtable_str
+#MAIN     = p_ht.cpp
+MAIN     = np_ht.cpp
+CPPSRC   = hashtable_str.cpp sync.cpp $(MAIN)
+EXECBIN = ${MAIN:.cpp=_str}
 OBJS = ${CPPSRC:.cpp=.o}
 LDFLAGS = /home/mli55/mcsim/pin-2.11/source/tools/Pthread/libmypthread.a
 WRAPPER_OBJ = /home/mli55/mcsim/pin-2.11/source/tools/Apps/mcsim_wrapper.o

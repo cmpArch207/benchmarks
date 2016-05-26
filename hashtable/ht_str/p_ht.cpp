@@ -5,7 +5,7 @@
 using namespace std;
 
 const size_t string_len = 4;
-const string prog = "sht"; //program's name, used by term_prog()
+const string prog = "spht"; //program's name, used by term_prog()
 
 
 
@@ -23,7 +23,7 @@ int main(int argc, char ** argv) {
         //<\initialization>
 
         //ht_str.show();
-        ht_str.non_persistent();
+        ht_str.persistent();
         //ht_str.show();
 
         return 0;
