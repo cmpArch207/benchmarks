@@ -9,30 +9,19 @@
 
 using namespace std;
 
-typedef pair<string, string> Str_Pair;
 
-class HT {
-	private:
-		unordered_map<string, string> ht;
-		size_t str_len; //length of string
-		size_t loops;  // tot # of iterations
-		string prog; // program's name
-		Str_Pair gen_entry();
-		string gen_str();
-		bool is_delete();
-		vector<Str_Pair> log;
-	public:
-		HT(const size_t &, const size_t &, 
-			const size_t &, string);
-		void show() const;
-		void warm_up();
-		void non_persistent();
-		void persistent();
-		
-};
+int * build_ht();
+void fill_ht();
+int gen_num();
+int search_ent(int);
+void insert_ent(int, int, int);
+void delete_ent(int);
+void show();
+bool is_delete();
+void non_persistent();
 
 //helper functs
 void usage();
-void get_arg(int, char **, int *, int *);
+void get_arg(int, char **, int *, int *, int *);
 
 #endif

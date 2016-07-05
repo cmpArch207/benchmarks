@@ -1,5 +1,6 @@
 #include <iostream>
 #include "hashtable_str.h"
+#include "sync.h"
 #include "defines.h"
 
 using namespace std;
@@ -22,9 +23,16 @@ int main(int argc, char ** argv) {
         mcsim_skip_instrs_end();
         //<\initialization>
 
+        //warm up
+        ht_str.warm_up();
+
+        //experiment
         //ht_str.show();
         ht_str.persistent();
         //ht_str.show();
+
+        //terminate program
+        term_prog(loops, prog);
 
         return 0;
 }

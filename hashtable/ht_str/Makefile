@@ -1,11 +1,11 @@
-#MAIN     = p_ht.cpp
-MAIN     = np_ht.cpp
-CPPSRC   = hashtable_str.cpp sync.cpp $(MAIN)
-EXECBIN = ${MAIN:.cpp=_str}
-OBJS = ${CPPSRC:.cpp=.o}
-LDFLAGS = /home/mli55/mcsim/pin-2.11/source/tools/Pthread/libmypthread.a
+#MAIN        = ht_str_p.cpp
+MAIN        = ht_str_np.cpp
+CPPSRC      = hashtable_str.cpp sync.cpp $(MAIN)
+EXECBIN     = ${MAIN:.cpp=}
+OBJS        = ${CPPSRC:.cpp=.o}
+LDFLAGS     = /home/mli55/mcsim/pin-2.11/source/tools/Pthread/libmypthread.a
 WRAPPER_OBJ = /home/mli55/mcsim/pin-2.11/source/tools/Apps/mcsim_wrapper.o
-CPP = g++ -O3 -w -g -fno-builtin -std=c++11
+CPP         = g++ -O3 -w -g -fno-builtin -std=c++11
 
 
 all: $(EXECBIN) 
@@ -25,4 +25,7 @@ $(OBJS): $(CPPSRC)
 
 
 clean:
-	rm -f *.o $(OBJS) $(EXECBIN) pin*.log
+	rm -f *.o $(OBJS) pin*.log *.sync
+
+spotless: clean
+	rm $(EXECBIN)
