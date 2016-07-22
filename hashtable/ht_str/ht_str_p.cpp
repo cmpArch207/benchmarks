@@ -6,30 +6,31 @@
 using namespace std;
 
 const size_t string_len = 4;
-const string prog = "spht"; //program's name, used by term_prog()
+const string program = "spht"; //program's name, used by term_prog()
 
+//get global varibles
+extern int ht_sz, loops, elt_sz;
+extern string prog;
+extern int * ht;
 
 
 int main(int argc, char ** argv) {
         //<initialization>
         mcsim_skip_instrs_begin();
 
-        //get two members
-        int ht_sz, loops;
-        get_arg(argc, argv, &ht_sz, &loops);
+        prog = program;
+        elt_sz = 1;// default element size
 
-        HT ht_str(ht_sz, string_len, loops, prog);
+        get_arg(argc, argv, &ht_sz, &loops, &elt_sz);
+
+        ht = build_ht();
 
         mcsim_skip_instrs_end();
         //<\initialization>
 
-        //warm up
-        ht_str.warm_up();
-
-        //experiment
-        //ht_str.show();
-        ht_str.persistent();
-        //ht_str.show();
+        show();
+        persistent();
+        show();
 
         //terminate program
         term_prog(loops, prog);

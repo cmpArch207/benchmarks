@@ -13,12 +13,13 @@ using namespace std;
 int * build_ht();
 void fill_ht();
 int gen_num();
-int search_ent(int);
+int find_pos(int);
 void insert_ent(int, int, int);
 void delete_ent(int);
 void show();
 bool is_delete();
 void non_persistent();
+void persistent();
 
 //helper functs
 void usage();

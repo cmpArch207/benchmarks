@@ -1,5 +1,5 @@
-#MAIN        = ht_str_p.cpp
-MAIN        = ht_str_np.cpp
+MAIN        = ht_str_p.cpp
+#MAIN        = ht_str_np.cpp
 CPPSRC      = hashtable_str.cpp sync.cpp $(MAIN)
 EXECBIN     = ${MAIN:.cpp=}
 OBJS        = ${CPPSRC:.cpp=.o}

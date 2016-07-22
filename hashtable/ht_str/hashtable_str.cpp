@@ -6,7 +6,6 @@
 #include "sync.h"
 #include "hashtable_str.h"
 
-
 using namespace std;
 
 //ht_sz    = # of elements
@@ -14,7 +13,7 @@ using namespace std;
 int ht_sz, loops, elt_sz;
 //name of the benchmark, used by sync files
 string prog;
-//the address of the hashtable
+//the ptr of the hashtable
 int * ht;
 
 //globle value to store the # of entries in hashtable
@@ -27,8 +26,8 @@ int entry_sz;
 int * build_ht() {
     //get entry_size
     //entry size = invalid value(int) + 
-    //             key size (int)*element size +
-    //             val (int)*element size
+    //             key element size +
+    //             val element size
     entry_sz = 1 + elt_sz * 2;
     //get time seed
     srand(time(NULL));
@@ -64,14 +63,14 @@ void fill_ht() {
         //cout << ", val = " << val << endl;
 
         //find an avail pos and insert
-        int pos = search_ent(key);
+        int pos = find_pos(key);
         if (pos >= 0)
             insert_ent(pos, key, val);
     }
 }
 
-//search a key
-int search_ent(int key) {
+//search a key and return corresponding position
+int find_pos(int key) {
     //get hash value and corresponding pos
     int pos = (key % ht_sz) * entry_sz;
     //prevent infinite loop
@@ -96,13 +95,16 @@ int search_ent(int key) {
     return pos;
 }
 
+
 //insert entry
 void insert_ent(int pos, int key, int val) {
     if (pos < 0) return;
 
-    //otherwise, there is an avail pos
     //set invalid value
+    if (ht[pos] == 0) 
+        ++entries; //update # of entries
     ht[pos] = 1;
+    
     //insert key value pair
     for (int i = 0; i < elt_sz; ++i) {
         //insert key
@@ -110,16 +112,15 @@ void insert_ent(int pos, int key, int val) {
         //insert value
         ht[pos+1+elt_sz+i] = val;
     }
-    //update # of entries
-    ++entries;
 }
 
 
 //delete entry
 void delete_ent(int pos) {
-    //randomly delete an entry
-    if (pos == -1)
-        pos = (rand() % ht_sz) * entry_sz;
+    if (pos == -1) {
+        cout << "invalid posistion\n";
+        return;
+    }
 
     if (ht[pos] == 0)
         return;
@@ -167,111 +168,88 @@ void non_persistent() {
     int i;
     for (i = 0; i < loops; i++) {
         //check if another program end first
+        mcsim_skip_instrs_begin();
         listen(i, prog);
+        mcsim_skip_instrs_end();
 
         //generate key value pair
         int key = gen_num();
         int val = gen_num();
 
-        int pos = search_ent(key);
+        int pos = find_pos(key);
 
         if (is_delete() && entries > 0) {
             //if need to delete, randomly delete an entry
+            if (pos == -1)
+                pos = (rand() % ht_sz) * entry_sz;
             delete_ent(pos);
         }
         else {//insert a new entry or delete an entry
-            if (pos == -1 and entries == ht_sz)//hashtable is full 
-                delete_ent(pos);
-            else  
-                insert_ent(pos, key, val);
+            if (pos == -1 and entries == ht_sz) {//hashtable is full 
+                //replace the current entry with new one
+                pos = (key % ht_sz) * entry_sz;
+            }
+            insert_ent(pos, key, val);
         }
     }
 }
 
+void persistent() {
+    //persistent version
+    int * log = new int[2];
+    int i;
+    int del = 0, ins = 0;
+    for (i = 0; i < loops; i++) {
+        //check if another program end first
+        mcsim_skip_instrs_begin();
+        listen(i, prog);
+        mcsim_skip_instrs_end();
 
-//void HT::persistent() {
-    //cout << "(p) experiment begins\n";
+        //generate key value pair
+        int key = gen_num();
+        int val = gen_num();
 
-    ////count the operations
-    //int dels = 0;
-    //int inserts = 0;
+        int pos = find_pos(key);
 
-    ////persistent version
-    //int i;
-    //for (i = 0; i < loops; i++) {
-        ////check if another program end first
-        //mcsim_skip_instrs_begin();
-        //listen(i, prog);
-        //mcsim_skip_instrs_end();
+        if (is_delete() && entries > 0) {
+            //if need to delete, randomly delete an entry
+            if (pos == -1)
+                pos = (rand() % ht_sz) * entry_sz;
+            mcsim_tx_begin();
+            mcsim_log_begin();
+            log[0] = ht[pos+1];
+            log[1] = ht[pos+1+elt_sz];
+            mcsim_mem_fence();
+            mcsim_log_end();
+            mcsim_mem_fence();
+            delete_ent(pos);
+            mcsim_tx_end();
 
-        //// loops
-        //if (is_delete() && ht.size() > 0) {
-            ////if need to delete, delete the 1st entry
-            
-            ////get the target pair and store it into log
-            //Str_Pair del_pair = 
-                //Str_Pair(ht.begin()->first, ht.begin()->second);
+            ++del;
+        }
+        else {//insert a new entry or delete an entry
+            if (pos == -1 and entries == ht_sz) {//hashtable is full 
+                //replace the current entry with new one
+                pos = (key % ht_sz) * entry_sz;
+            }
+            mcsim_tx_begin();
+            mcsim_log_begin();
+            log[0] = key;
+            log[1] = val;
+            mcsim_mem_fence();
+            mcsim_log_end();
+            mcsim_mem_fence();
+            insert_ent(pos, key, val);
+            mcsim_tx_end();
 
-            ////persistently delete an entry
-            //mcsim_tx_begin();
-            //mcsim_log_begin();
-            //log.push_back(del_pair);
-            //mcsim_mem_fence();
-            //mcsim_log_end();
-            //mcsim_mem_fence();
-            //ht.erase(ht.begin());
-            //mcsim_tx_end();
+            ++ins;
+        }
+    }
+    delete [] log;
 
-            //++dels;
-        //}
-        //else {
-            ////otherwise, randomly generate a key,
-            //string srch_key = gen_str();
-
-            //auto iter = ht.find(srch_key);
-            //if (iter != ht.end()) {
-                ////if the key exists, delete the
-                ////corresponding entry from hashtable
-                //Str_Pair del_pair = 
-                    //Str_Pair(srch_key, iter->second);
-
-                //mcsim_tx_begin();
-                //mcsim_log_begin();
-                //log.push_back(del_pair);
-                //mcsim_mem_fence();
-                //mcsim_log_end();
-                //mcsim_mem_fence();
-                //ht.erase(iter);
-                //mcsim_tx_end();
-
-                //++dels;
-            //}
-            //else {
-                ////if not, insert a new entry
-                //string srch_val = gen_str();
-                //Str_Pair ins_pair = Str_Pair(srch_key, srch_val);
-
-                ////persistently insert an entry
-                //mcsim_tx_begin();
-                //mcsim_log_begin();
-                //log.push_back(ins_pair);
-                //mcsim_mem_fence();
-                //mcsim_log_end();
-                //mcsim_mem_fence();
-                //ht.insert(ins_pair);
-                //mcsim_tx_end();
-                //mcsim_clwb(&(ht[srch_key]));
-
-                //++inserts;
-            //}
-        //}
-    //}
-    //cout << "dels = " << dels;
-    //cout << ", inserts = " << inserts << endl;
-
-    //// terminate the program
-    //term_prog(i, prog);
-//}
+    //cout << "delete = " << del;
+    //cout << "\ninsert = " << ins << endl;
+}
 
 
 // helper functions

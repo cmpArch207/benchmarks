@@ -8,18 +8,18 @@ using namespace std;
 const size_t string_len = 4;
 const string program = "sht"; //program's name, used by term_prog()
 
-//get two members
+//get global varibles
 extern int ht_sz, loops, elt_sz;
 extern string prog;
 extern int * ht;
 
 
 int main(int argc, char ** argv) {
-        prog = program;
-        elt_sz = 1;// default element size
-
         //<initialization>
         mcsim_skip_instrs_begin();
+
+        prog = program;
+        elt_sz = 1;// default element size
 
         get_arg(argc, argv, &ht_sz, &loops, &elt_sz);
 
