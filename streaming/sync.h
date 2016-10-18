@@ -8,6 +8,8 @@
 
 using namespace std;
 
+void get_started();
+bool is_started();
 bool is_terminated();
 void term_prog(int loop, const string prog);
 void listen(int loop, const string prog);

@@ -45,6 +45,11 @@ int main(int argc, char **argv) {
   //int element_size = atoi(argv[2]);
   //int traversals = atoi(argv[3]);
 
+  //while (!is_started()) {
+    ////cout << "waiting\n";
+    //;
+  //}
+
   //get parameters
   int size, traversals, element_size = 1;
   if (argc != 5 and argc != 7)
@@ -74,8 +79,8 @@ int main(int argc, char **argv) {
 
   start_time = time(NULL);
   for (i=0; i < traversals; i++) {
-    listen(i, prog);
     for (j=0; j + 8 < size; j+=8) {
+    listen(i*size+j, prog);
       //printf("indices: %d %d %d %d %d %d %d %d\n", index_array[j], index_array[j+1], index_array[j+2], index_array[j+3], index_array[j+4], index_array[j+5], index_array[j+6], index_array[j+7]);
       
       target_array[index_array[j]] = array[index_array[j]];
@@ -93,5 +98,5 @@ int main(int argc, char **argv) {
   printf("Time diff: %lld\n", (long long int)end_time-(long long int)start_time);
   printf("Sum: %lld\n", sum);
 
-  term_prog(i, prog);
+  term_prog(i*size+j, prog);
 }
