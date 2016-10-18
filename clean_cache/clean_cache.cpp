@@ -1,101 +1,166 @@
 #include <iostream>
-#include <vector>
-#include <sys/time.h>
-#include <time.h>
-#include <unistd.h> // getopt()
+#include <emmintrin.h> //_mm_stream: bypass cache
+//#include <fstream>
+//#include <vector>
+//#include <new>
+//#include <array>
 
+#include "helper.h"
+#include "clean_cache.h"
 #include "defines.h"
+#include "sync.h"
 
 using namespace std;
 
-class LongVec {
-	private:
-		vector<int> vec;
-	public:
-		LongVec(const int &);
-		void streaming(const int &);
-		void rand_acc(const int &);  // random access
-		void show() const;
+//global variables
+int * array;
+int * log;
+enum { array_size = 8388608 }; //array_size = 8192k
+//array_size  = # of the elements
+//elt_size  = # of the integers for each element
+int log_size, loops, elt_size = 1;
+int cur_log = 0;
+int pos = 2097152; // the # of different positions
+string prog;
 
-};
+void build_array() {
+	//get time seed
+	srand(time(NULL));
 
-LongVec::LongVec(const int & size) {
-	for (int i = 0; i < size; ++i) {
-		int elt = rand();
-		vec.push_back(elt);
-	}
+	//allocate mem
+	array = new int [array_size * elt_size];
+	log = new int [log_size * elt_size];
+	//// randomly assign values
+	//for (int i = 0; i < array_size; ++i) {
+		//int num = rand();
+		//for (int j = 0; j < elt_size; ++j) {
+			//// every int in an element is identical
+			//array[i*elt_size+j] = num;
+		//}
+	//}
+
 }
 
-//void LongVec::increase() {
-	//for (size_t i = 0; i < vec.size(); ++i) 
-		//++vec.at(i);
-//}
-
-void LongVec::streaming(const int & loops) {
+void rcn_frdly_cc(const size_t & n) {
+	//n is the # of different positions
+	int * pos = new int [n];
+	int p;
+	bool fst_loop = true;
 	size_t i, j;
-	for (i = 0, j = 0; i < loops; ++i, ++j) {
-		if (j >= vec.size()) j = 0;
-		++vec.at(j);
+
+	for (i = 0, j = 0; i < loops ; ++i, ++j) {
+		listen(i, prog);
+		//in the first loop, 
+	        //put the positions into the vector
+		if (i == n) fst_loop = false;
+
+		//repeatedly access n postions
+		if (j == n) j = 0;
+
+		if (fst_loop) {
+			p = rand() % array_size;
+			pos[j] = p;
+		}
+		else
+			p = pos[j];
+		for (int i = 0; i < elt_size; ++i) {
+			int n = rand();
+			array[p * elt_size + i] = n;
+			//bypassLog(n);
+			cacheLog(n);
+		}
 	}
 }
 
-void LongVec::show() const {
-	for (size_t i = 0; i < vec.size(); ++i) 
-		cout << vec.at(i) << " ";
+void rcn_frdly_bp(const size_t & n) {
+	//n is the # of different positions
+	int * pos = new int [n];
+	int p;
+	bool fst_loop = true;
+	int i, j;
+
+	for (i = 0, j = 0; i < loops ; ++i, ++j) {
+		listen(i, prog);
+		//in the first loop, 
+	        //put the positions into the vector
+		if (i == n) fst_loop = false;
+
+		//repeatedly access n postions
+		if (j == n) j = 0;
+
+		if (fst_loop) {
+			p = rand() % array_size;
+			pos[j] = p;
+		}
+		else
+			p = pos[j];
+		for (int i = 0; i < elt_size; ++i) {
+			int n = rand();
+			array[p * elt_size + i] = n;
+			bypassLog(n);
+			//cacheLog(n);
+		}
+	}
+}
+
+void streaming() {
+	int i, j;
+	for (i = 0, j = 0; i < loops; ++i, ++j) {
+		listen(i, prog);
+		if (j >= array_size) j = 0;
+	}
+}
+
+
+void show() {
+	for (size_t i = 0; i < array_size; ++i) 
+		cout << array[i*elt_size] << " ";
 	cout << endl;
 }
 
-void LongVec::rand_acc(const int & loops) {
-	for (size_t i = 0; i < loops ; ++i) {
-		size_t pos = rand() % vec.size();
-		//cout << "pos = " << pos << endl;
-		++vec.at(pos);
+void bypassLog(int n) {
+	if (cur_log >= log_size) cur_log = 0;
+
+	for (int i = 0; i < elt_size; ++i) {
+		_mm_stream_si32(&log[cur_log++], n);
+		asm volatile("sfence");
 	}
 }
 
-int main (int argc, char ** argv) {
-	if (argc != 5) {
-		cout << "Usage: clean_cache [-s size] [-l loops].\n";
-		exit(EXIT_FAILURE);
+void cacheLog(int n) {
+	if (cur_log >= log_size) cur_log = 0;
+
+	for (int i = 0; i < elt_size; ++i) {
+		log[cur_log++] = n;
 	}
-
-	srand(time(NULL));
-	int size, loops;
-	
-	//get options
-	int opt;
-	while ((opt = getopt(argc, argv, "ls")) != -1) {
-		switch (opt) {
-			case 'l':
-				loops = atoi(argv[optind]);
-				break;
-			case 's':
-				size = atoi(argv[optind]);
-				break;
-			
-			default:  //case '?':
-				cout << "Usage: clean_cache [-s size] [-l loops].\n";
-				exit(EXIT_FAILURE);
-		}
-	}
-	
-	//cout << "loops = " << loops;
-	//cout << " size = " << size << endl;
-
-	//skip the initialization stage
-	mcsim_skip_instrs_begin();
-
-	LongVec V(size);
-
-	mcsim_skip_instrs_end();
-	//////////
-	
-	//V.show();
-
-	V.streaming(loops);
-	//V.rand_acc(loops);
-
-	//V.show();
-
-	return 0;
 }
+
+
+//// helper functions
+//void usage() {
+        //cout << "Usage: ./execbin [-s array_size] [-l loops] [-e element_size].\n";
+        //exit(EXIT_FAILURE);
+//}
+
+//void get_arg(int argc, char ** argv, int * size, int * loops, int *elt_sz) {
+        //if (argc != 5 and argc != 7) 
+                //usage();
+
+        //// get options
+        //int opt;
+        //while ((opt = getopt(argc, argv, "s:l:e:")) != -1) {
+                //switch (opt) {
+                        //case 'l':
+                                //*loops = atoi(optarg);
+                                //break;
+                        //case 's':
+                                //*size = atoi(optarg);
+                                //break;
+			//case 'e':
+				//*elt_sz = atoi(optarg);
+                                //break;
+                        //default:
+                                //usage();
+                //}
+        //}
+//}
