@@ -21,33 +21,33 @@ void listen(int loop, const string prog);
 
 
 //bool is_terminated() { // check if one of the programs terminates
-	////read the existing files
-	//file.open(filename.c_str(), ios::in);
-	//if (file.is_open()) //if there is a program end first
-		//return true;
-	//return false;
+////read the existing files
+//file.open(filename.c_str(), ios::in);
+//if (file.is_open()) //if there is a program end first
+//return true;
+//return false;
 
-	////for (size_t i = 0; i < PROG_N; ++i) {
-		////string filename = get_filename(i);
-		////file[i].open(filename.c_str(), ios::in);
+////for (size_t i = 0; i < PROG_N; ++i) {
+////string filename = get_filename(i);
+////file[i].open(filename.c_str(), ios::in);
 
-		////if (file[i].is_open()) //if there is a program end first
-			////return true;
-	////}
-	////return false;
+////if (file[i].is_open()) //if there is a program end first
+////return true;
+////}
+////return false;
 //}
 
 //void term_prog() {
-	////terminate the current program
-	////string filename = get_filename(f_ind);
-	//file.open(filename.c_str(), ios::out);
-	////++f_ind;
-	//exit(0);
+////terminate the current program
+////string filename = get_filename(f_ind);
+//file.open(filename.c_str(), ios::out);
+////++f_ind;
+//exit(0);
 //}
-	
+
 //void listen() {
-	//if (is_terminated()) 
-		//term_prog();
+//if (is_terminated()) 
+//term_prog();
 //}
 
 
