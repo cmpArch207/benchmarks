@@ -12,31 +12,31 @@ const string prog = "stm";
 
 // helper functions
 void usage() {
-        cout << "Usage: ./execbin [-s array_size] [-l loops] [-e element_size].\n";
-        exit(EXIT_FAILURE);
+  cout << "Usage: ./execbin [-s array_size] [-l loops] [-e element_size].\n";
+  exit(EXIT_FAILURE);
 }
 
 void get_arg(int argc, char ** argv, int * size, int * loops, int *elt_sz) {
-        if (argc != 5 and argc != 7) 
-                usage();
+  if (argc != 5 and argc != 7) 
+    usage();
 
-        // get options
-        int opt;
-        while ((opt = getopt(argc, argv, "s:l:e:")) != -1) {
-                switch (opt) {
-                        case 'l':
-                                *loops = atoi(optarg);
-                                break;
-                        case 's':
-                                *size = atoi(optarg);
-                                break;
-		        case 'e':
-				*elt_sz = atoi(optarg);
-                                break;
-                        default:
-                                usage();
-                }
-        }
+  // get options
+  int opt;
+  while ((opt = getopt(argc, argv, "s:l:e:")) != -1) {
+    switch (opt) {
+      case 'l':
+        *loops = atoi(optarg);
+        break;
+      case 's':
+        *size = atoi(optarg);
+        break;
+      case 'e':
+        *elt_sz = atoi(optarg);
+        break;
+      default:
+        usage();
+    }
+  }
 }
 
 int main(int argc, char **argv) {
@@ -46,8 +46,8 @@ int main(int argc, char **argv) {
   //int traversals = atoi(argv[3]);
 
   //while (!is_started()) {
-    ////cout << "waiting\n";
-    //;
+  ////cout << "waiting\n";
+  //;
   //}
 
   //get parameters
@@ -80,9 +80,9 @@ int main(int argc, char **argv) {
   start_time = time(NULL);
   for (i=0; i < traversals; i++) {
     for (j=0; j + 8 < size; j+=8) {
-    listen(i*size+j, prog);
+      listen(i*size+j, prog);
       //printf("indices: %d %d %d %d %d %d %d %d\n", index_array[j], index_array[j+1], index_array[j+2], index_array[j+3], index_array[j+4], index_array[j+5], index_array[j+6], index_array[j+7]);
-      
+
       target_array[index_array[j]] = array[index_array[j]];
       target_array[index_array[j+1]] = array[index_array[j+1]];
       target_array[index_array[j+2]] = array[index_array[j+2]];

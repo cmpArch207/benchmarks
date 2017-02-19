@@ -1,2 +1,0 @@
-Pin 2.11 kit 49303
-E: Unable to load /home/mogleari/research/pin-2.11/source/tools/Pthread/mypthreadtool: /home/mogleari/research/pin-2.11/source/tools/Pthread/mypthreadtool: undefined symbol: _ZN10PinPthread16PthreadScheduler13mcsim_pcommitEv

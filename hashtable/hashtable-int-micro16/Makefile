@@ -17,7 +17,7 @@ OBJS_WAL            = $(TARGET_WAL).o
 OBJS_FWB            = $(TARGET_FWB).o
 
 OBJS = $(OBJS_REDO_BASE) $(OBJS_UNDO_BASE) $(OBJS_REDO_CLWB_BASE) $(OBJS_UNDO_CLWB_BASE) $(OBJS_WAL) $(OBJS_FWB)              
-#CFLAGS = -O0 -g -ggdb -w  -Wall
+#CFLAGS = -O0 -g -ggdb -w  -Wall -std=c++11
 CFLAGS = -O3 -w -g -fno-builtin -std=c++11
 #LDFLAGS = -lpthread 
 LDFLAGS = /home/mogleari/research/pin-2.11/source/tools/Pthread/libmypthread.a
