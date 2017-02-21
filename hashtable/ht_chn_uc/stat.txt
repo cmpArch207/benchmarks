@@ -1,0 +1,990 @@
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00548541
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00518137
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00555377
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00517857
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00562338
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00519349
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00555391
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00516883
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00568155
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00519907
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00568957
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00523156
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00568173
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00522866
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00566598
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.0051903
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00561953
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00517047
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00555324
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00517847
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00509529
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00510386
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00561985
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00518436
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00546451
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00520136
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00553577
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00513457
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00546703
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00518402
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00533686
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00509521
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00569858
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.0051739
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00569638
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00518533
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00564769
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00517867
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00554956
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00509058
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00568112
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00522689
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00560198
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00516897
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00543227
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00518495
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00564896
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00517894
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00566542
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00519208
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00569997
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00521265
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00557913
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00509751
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00564326
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00515412
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00561421
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00505954
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00543654
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00508078
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00558364
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00517102
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00563802
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00514076
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00563429
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00509532
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00562921
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00518896
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00546582
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00510107
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00546369
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00499176
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00562215
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00509598
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00563261
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00512465
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00562759
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00509153
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00545526
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00517974
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00546618
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00510912
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00538505
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00501218
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00566876
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00522051
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00567625
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00505746
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00557809
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00508436
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00564096
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00517519
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00563717
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.0051442
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00554061
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00515226
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00567706
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00523794
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00565021
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00517208
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00566087
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00512955
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00569944
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00522067
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.0056689
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00517808
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00567648
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00519254
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00569542
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00521725
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00569067
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00522463
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.0056418
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00509952
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00558118
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00513647
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00567821
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00519482
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00557501
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.0051771
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00568106
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00523488
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00568421
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00511899
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00558662
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00519952
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00550375
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.005089
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00565113
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.0051838
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.005588
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.0050341
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.0056169
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.0051279
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00567315
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00517569
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00563307
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00516437
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00566901
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00491613
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00490883
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00519418
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00442667
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00518639
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00549146
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00505347
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00546608
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00504193
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.0055528
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00504043
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00564754
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00515597
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00558084
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00518124
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00565977
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.0051991
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00567637
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00512915
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00540002
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00514197
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.0056524
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00500624
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.0055567
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.0050584
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00549258
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00502575
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00554486
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.0051383
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00562646
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00511676
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00553206
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00476411
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00562168
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00510631
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00547797
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00509139
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00554863
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00512104
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00548612
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00517383
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.0056157
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00502661
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00552672
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.0051381
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00565077
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00515441
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00559376
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00518595
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00565914
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.0051887
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00550894
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00511165
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00566815
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00520788
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00474324
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00513926
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00555478
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00518563
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00532488
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00517536
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00566231
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00509964
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00566373
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00518647
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00568202
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00510057
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00537209
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00520088
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00566755
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00516009
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00562238
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00518878
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00559008
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.0051668
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00553205
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00512609
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00565709
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00520001
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00569644
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00519415
+htp_cc: loop = 600300

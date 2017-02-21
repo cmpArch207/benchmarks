@@ -10,6 +10,8 @@
 #include <iostream>
 #include <string.h> 
 #include <fstream>
+#include <vector>
+#include <map>
 #include <boost/config.hpp>
 #include <boost/tokenizer.hpp>
 #include <boost/tuple/tuple.hpp>
@@ -22,6 +24,9 @@
 
 using namespace std;
 using namespace boost;
+
+typedef pair < int, pair<string, string> > Complex_Pair;
+
 
 template <typename DistanceMap>
 class bacon_number_recorder : public default_bfs_visitor {
@@ -56,7 +61,6 @@ int main(int argc, char **argv)
     printf("(1) Search for a path of length no more than six between two vertices\n");
     printf("(2) Modify the graph by inserting and removing edges\n");
     printf("./sixdegs --search <num of iterations>\n");
-    return 0;
   }
 
   int i, bench = SEARCH_BENCH, total_iterations = TOTAL_ITERATIONS;
@@ -74,6 +78,8 @@ int main(int argc, char **argv)
     }
   }   
    
+  printf( "Running benchmark with %d iterations\n", total_iterations );
+
   ifstream datafile("input.dat");
   if (!datafile) {
     cerr << "No input.dat file" << endl;
@@ -124,7 +130,16 @@ int main(int argc, char **argv)
     if (inserted)
       connecting_movie[e] = movie_name;
     
-  } // Initialization done  
+  } // Initialization done
+
+  #ifdef PERSISTENT
+  #ifdef UNDOLOG
+  map< int, pair<string, string> > undolog;
+  #endif // UNDOLOG
+  #ifdef REDOLOG
+  map< int, pair<string, string> > redolog;
+  #endif // REDOLOG
+  #endif // PERSISTENT
 
   mcsim_skip_instrs_end();
   
@@ -136,17 +151,33 @@ int main(int argc, char **argv)
     bool inserted;
     for (i=0; i != total_iterations; ++i) {                              
 
-      // insert    
-      
+      // insert      
+
       mcsim_skip_instrs_begin();
       src_node = lexical_cast<string>(i+base);            
-      other_node = lexical_cast<string>(i+base + diff-1);              
+      other_node = lexical_cast<string>(i+base + diff-1);      
 
       movie_name = src_node + "_with_" + other_node;
       u = actors[src_node];
       v = actors[other_node];      
-      graph_traits < Graph >::edge_descriptor e;  
+      graph_traits < Graph >::edge_descriptor e;   
+      pair<string, string> entry(src_node, other_node);
       mcsim_skip_instrs_end();
+   
+      #ifdef PERSISTENT 
+      mcsim_log_begin();      
+      //mcsim_skip_instrs_begin();
+      #ifdef UNDOLOG
+      undolog.insert(Complex_Pair(0, entry)); // 0= not connected
+      #endif // UNDOLOG
+      #ifdef REDOLOG
+      redolog.insert(Complex_Pair(1, entry)); // 1= connected
+      #endif // REDOLOG
+      // mcsim_skip_instrs_end();
+      mcsim_mem_fence();
+      mcsim_log_end();
+      mcsim_mem_fence();
+      #endif // PERSISTENT
 
       tie(e, inserted) = add_edge(u, v, g);
       if (inserted) {
@@ -156,13 +187,29 @@ int main(int argc, char **argv)
       }
                                   
       // remove
-      mcsim_skip_instrs_begin();
+      mcsim_skip_instrs_end();
       src_node = lexical_cast<string>(i+base);      
-      other_node = lexical_cast<string>(i+ diff + base/2);      
+      other_node = lexical_cast<string>(i+ diff + base/2);
       
       u = actors[src_node];
-      v = actors[other_node];     
+      v = actors[other_node];
+      entry = make_pair(src_node, other_node);
       mcsim_skip_instrs_end();
+      
+      #ifdef PERSISTENT 
+      mcsim_log_begin();      
+      //mcsim_skip_instrs_begin();
+      #ifdef UNDOLOG
+      undolog.insert(Complex_Pair(1, entry)); // 1= connected
+      #endif // UNDOLOG
+      #ifdef REDOLOG
+      redolog.insert(Complex_Pair(0, entry)); // 0= not connected
+      #endif // REDOLOG
+      // mcsim_skip_instrs_end();
+      mcsim_mem_fence();
+      mcsim_log_end();
+      mcsim_mem_fence();
+      #endif // PERSISTENT
 
       remove_edge(u, v, g);
       
@@ -172,5 +219,17 @@ int main(int argc, char **argv)
     cout << "num_edges after searches: " << num_edges(g) << endl;
   }
   
+  // make sure log structures are not dummy, will not discard by compile+O3
+  #ifdef PERSISTENT 
+  mcsim_skip_instrs_begin();
+  #ifdef UNDOLOG
+  cout << "dummy: undolog.size= " << undolog.size() << endl;
+  #endif // UNDOLOG
+  #ifdef REDOLOG
+  cout << "dummy: redolog.size= " << redolog.size() << endl;
+  #endif // REDOLOG
+  mcsim_skip_instrs_end();
+  #endif // PERSISTENT
+      
   return 0;
 }

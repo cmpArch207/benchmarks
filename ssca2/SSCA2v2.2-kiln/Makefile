@@ -6,8 +6,8 @@ OBJS = SSCA2.o init.o utils.o genScalData.o gen2DTorus.o \
     computeGraph.o getStartLists.o findSubGraphs.o  \
     betweennessCentrality.o
 
-LDFLAGS = /gpfs/home/juz138/work/software/pin-2.11/source/tools/Pthread/libmypthread.a                                        
-WRAPPER_OBJ = /gpfs/home/juz138/work/software/pin-2.11/source/tools/Apps/mcsim_wrapper.o
+LDFLAGS = /home/mogleari/research/pin-2.11/source/tools/Pthread/libmypthread.a
+WRAPPER_OBJ = /home/mogleari/research/pin-2.11/source/tools/Apps/mcsim_wrapper.o
 
 .c.o: defs.h Makefile
 	$(CC) $(INC) $(CFLAGS) -c $<

@@ -1,0 +1,90 @@
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00548541
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00518137
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00555377
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00517857
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00562338
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00519349
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00555391
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00516883
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00568155
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00519907
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00568957
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00523156
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00568173
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00522866
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00566598
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.0051903
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00561953
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00517047
+htp_cc: loop = 600300
+Initialization complete
+total entires = 100
+max   entries = 100
+htp_bp : throughput = 0.00555324
+htp_bp: loop = 600300
+total entires = 100
+max   entries = 100
+htp_cc : throughput = 0.00517847
+htp_cc: loop = 600300

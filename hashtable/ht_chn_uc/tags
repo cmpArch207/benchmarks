@@ -1,0 +1,77 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+CPP	Makefile	/^CPP         = g++ -O3 -w -g -fno-builtin -std=c++11$/;"	m
+CPPSRC	Makefile	/^CPPSRC      = hashtable_chn.cpp sync.cpp $(MAIN)$/;"	m
+DEL_BENCH	defines.h	10;"	d
+EXECBIN	Makefile	/^EXECBIN     = ${MAIN:.cpp=}$/;"	m
+GET_BENCH	defines.h	8;"	d
+HashMap	hashtable_chn.cpp	/^HashMap::HashMap(int table_size = 100, int loops = 100, int entry_size = 1) $/;"	f	class:HashMap
+HashMap	hashtable_chn.h	/^class HashMap {$/;"	c
+ITEM_COUNT	defines.h	13;"	d
+KEY_SIZE	defines.h	5;"	d
+LDFLAGS	Makefile	/^LDFLAGS     = \/home\/mli55\/mcsim\/pin-2.11\/source\/tools\/Pthread\/libmypthread.a$/;"	m
+LinkedHashEntry	hashtable_chn.cpp	/^LinkedHashEntry::LinkedHashEntry(const LinkedHashEntry & he) {$/;"	f	class:LinkedHashEntry
+LinkedHashEntry	hashtable_chn.cpp	/^LinkedHashEntry::LinkedHashEntry(int key = 1, int val = 1) {$/;"	f	class:LinkedHashEntry
+LinkedHashEntry	hashtable_chn.h	/^class LinkedHashEntry {$/;"	c
+MAIN	Makefile	/^MAIN        = ht_chn_p.cpp$/;"	m
+OBJS	Makefile	/^OBJS        = ${CPPSRC:.cpp=.o}$/;"	m
+PUT_BENCH	defines.h	9;"	d
+RAND_SEED	defines.h	12;"	d
+TOTAL_ITERATIONS	defines.h	14;"	d
+VALUE_SIZE	defines.h	6;"	d
+WRAPPER_OBJ	Makefile	/^WRAPPER_OBJ = \/home\/mli55\/mcsim\/pin-2.11\/source\/tools\/Apps\/mcsim_wrapper.o$/;"	m
+_DEFINES_H_	defines.h	2;"	d
+__HASHTABLE_CHN__	hashtable_chn.h	2;"	d
+__SYNC_H__	sync.h	2;"	d
+clflush	hashtable_chn.h	/^		inline void clflush(void * p) {$/;"	f	class:HashMap
+cur_log	hashtable_chn.h	/^		int cur_log;$/;"	m	class:HashMap
+entries	hashtable_chn.h	/^		int entries;$/;"	m	class:HashMap
+entry_size_m	hashtable_chn.h	/^		int entry_size_m;$/;"	m	class:HashMap
+entry_sz	hashtable_chn.h	/^enum { entry_sz = 1 };$/;"	e	enum:__anon1
+file	sync.cpp	/^fstream file;$/;"	v
+filename	sync.cpp	/^string filename = "prog.sync";$/;"	v
+flushLog	hashtable_chn.cpp	/^void HashMap::flushLog() {$/;"	f	class:HashMap
+gen_num	hashtable_chn.cpp	/^int HashMap::gen_num() {$/;"	f	class:HashMap
+get	hashtable_chn.cpp	/^int HashMap::get(int key) {$/;"	f	class:HashMap
+getEntries	hashtable_chn.cpp	/^int HashMap::getEntries() {$/;"	f	class:HashMap
+getKey	hashtable_chn.cpp	/^int LinkedHashEntry::getKey() const {$/;"	f	class:LinkedHashEntry
+getNext	hashtable_chn.cpp	/^LinkedHashEntry * LinkedHashEntry::getNext() const {$/;"	f	class:LinkedHashEntry
+getVal	hashtable_chn.cpp	/^int LinkedHashEntry::getVal() const {$/;"	f	class:LinkedHashEntry
+get_arg	hashtable_chn.cpp	/^void get_arg(int argc, char ** argv, int * size, int * loops, int * elt_size) {$/;"	f
+is_delete	hashtable_chn.cpp	/^bool HashMap::is_delete() {$/;"	f	class:HashMap
+is_full	hashtable_chn.h	/^		bool is_full() { return entries >= table_size_m; }$/;"	f	class:HashMap
+is_terminated	sync.cpp	/^bool is_terminated() { \/\/ check if one of the programs terminates$/;"	f
+key_m	hashtable_chn.h	/^		int key_m[entry_sz];$/;"	m	class:LinkedHashEntry
+listen	sync.cpp	/^void listen(int loop, const string prog) {$/;"	f
+log_m	hashtable_chn.h	/^		LinkedHashEntry *log_m;$/;"	m	class:HashMap
+loops_m	hashtable_chn.h	/^		int loops_m;$/;"	m	class:HashMap
+main	ht_chn_np.cpp	/^int main(int argc, char ** argv) {$/;"	f
+main	ht_chn_p.cpp	/^int main(int argc, char ** argv) {$/;"	f
+max_entries	hashtable_chn.h	/^		int max_entries;$/;"	m	class:HashMap
+max_log	hashtable_chn.h	/^		int max_log;$/;"	m	class:HashMap
+needflush	hashtable_chn.h	/^		bool needflush() { return cur_log >= max_log; }$/;"	f	class:HashMap
+next_m	hashtable_chn.h	/^		LinkedHashEntry * next_m;$/;"	m	class:LinkedHashEntry
+non_persistent	hashtable_chn.cpp	/^void HashMap::non_persistent(const string prog) {$/;"	f	class:HashMap
+operator <<	hashtable_chn.cpp	/^ostream & operator<<(ostream & os, const LinkedHashEntry & entry) {$/;"	f
+operator =	hashtable_chn.cpp	/^LinkedHashEntry & LinkedHashEntry::operator=(const LinkedHashEntry & he) {$/;"	f	class:LinkedHashEntry
+p_pt	hashtable_chn.cpp	/^void HashMap::p_pt(int key, int value) {$/;"	f	class:HashMap
+p_rm	hashtable_chn.cpp	/^void HashMap::p_rm(int key) {$/;"	f	class:HashMap
+persistent	hashtable_chn.cpp	/^void HashMap::persistent(const string prog) {$/;"	f	class:HashMap
+program	ht_chn_np.cpp	/^const string program = "htp";\/\/program's name, used by term_prog()$/;"	v
+program	ht_chn_p.cpp	/^const string program = "htp";\/\/program's name, used by term_prog()$/;"	v
+put	hashtable_chn.cpp	/^void HashMap::put(int key, int value) {$/;"	f	class:HashMap
+remove	hashtable_chn.cpp	/^void HashMap::remove(int key) {$/;"	f	class:HashMap
+setNext	hashtable_chn.cpp	/^void LinkedHashEntry::setNext(LinkedHashEntry * next) {$/;"	f	class:LinkedHashEntry
+setVal	hashtable_chn.cpp	/^void LinkedHashEntry::setVal(int value) {$/;"	f	class:LinkedHashEntry
+show	hashtable_chn.cpp	/^void HashMap::show() const {$/;"	f	class:HashMap
+table_m	hashtable_chn.h	/^		LinkedHashEntry **table_m;$/;"	m	class:HashMap
+table_size_m	hashtable_chn.h	/^		int table_size_m;$/;"	m	class:HashMap
+term_prog	sync.cpp	/^void term_prog(int loop, const string prog) {$/;"	f
+update_entries	hashtable_chn.h	/^		void update_entries() $/;"	f	class:HashMap
+usage	hashtable_chn.cpp	/^void usage() {$/;"	f
+val_m	hashtable_chn.h	/^		int val_m[entry_sz];$/;"	m	class:LinkedHashEntry
+~HashMap	hashtable_chn.cpp	/^HashMap::~HashMap() {$/;"	f	class:HashMap

@@ -1,0 +1,14 @@
+*.o
+*-pm-*
+hashtable/*/hashtable
+rbtree/*/rbtree
+sps/*/sps
+btree/*/btree
+ssca2/*/SSCA2
+sixdegree/*/sixdegs
+hashtable/*/hashtable-*
+rbtree/*/rbtree-*
+sps/*/sps-*
+btree/*/btree-*
+ssca2/*/SSCA2-*
+sixdegree/*/sixdegs-*
