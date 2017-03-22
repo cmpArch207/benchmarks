@@ -16,3 +16,15 @@ Usage examples:
 SPS: count 10000 swaps 100
 
 Others: ops 100 count 10000
+
+Licenced under the MIT Licencse.
+
+
+===========================
+
+Copyright (c) 2015-2017 UCSC Storage System Research Center. All
+rights reserved. Released under terms and conditions of GNU General
+Public License v3.0. 
+
+
+
