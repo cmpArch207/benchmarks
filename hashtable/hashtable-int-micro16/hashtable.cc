@@ -24,7 +24,7 @@ vector<int_pair> undo_log;
 void hash_insert( int arr_size )
 {
   mcsim_skip_instrs_begin();
-  srand( time( NULL ) );  
+  //srand( time( NULL ) );  
   unordered_map< int, int >::iterator hash_iter;
   int key   = rand() % arr_size;
   int value = rand();
@@ -86,7 +86,7 @@ void hash_insert( int arr_size )
 void hash_delete( int arr_size )
 {
   mcsim_skip_instrs_begin();
-  srand( time( NULL ) );  
+  //srand( time( NULL ) );  
   unordered_map< int, int >::iterator hash_iter;
   int key = rand() % arr_size;
   // Checks if the hashtable contains the key
@@ -119,7 +119,7 @@ void hash_delete( int arr_size )
 
 void hash_initialize( int arr_size )
 {
-  srand( time( NULL ) );  
+  //srand( time( NULL ) );  
 
   unordered_map< int, int >::iterator hash_iter;
   for ( int i = 0; i < arr_size; i++ )
