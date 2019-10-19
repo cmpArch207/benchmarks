@@ -1,5 +1,6 @@
 *.o
 *-pm-*
+*.log
 hashtable/*/hashtable
 rbtree/*/rbtree
 sps/*/sps

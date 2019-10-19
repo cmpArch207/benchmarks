@@ -23,7 +23,7 @@ vector<int_pair> undo_log;
 void rbtree_insert( int arr_size )
 {
   mcsim_skip_instrs_begin();
-  srand( time( NULL ) );  
+  //srand( time( NULL ) );  
   map< int, int >::iterator rbtree_iter;
   int key   = rand() % arr_size;
   int value = rand();
@@ -85,7 +85,7 @@ void rbtree_insert( int arr_size )
 void rbtree_delete( int arr_size )
 {
   mcsim_skip_instrs_begin();
-  srand( time( NULL ) );  
+  //srand( time( NULL ) );  
   map< int, int >::iterator rbtree_iter;
   int key = rand() % arr_size;
   // Checks if the rbtree contains the key
@@ -118,7 +118,7 @@ void rbtree_delete( int arr_size )
 
 void rbtree_initialize( int arr_size )
 {
-  srand( time( NULL ) );  
+  //srand( time( NULL ) );  
 
   map< int, int >::iterator rbtree_iter;
   for ( int i = 0; i < arr_size; i++ )

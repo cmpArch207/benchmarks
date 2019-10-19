@@ -41,7 +41,7 @@ string random_string( size_t length ) {
 void hash_insert( int arr_size, int num_iterations )
 {
   mcsim_skip_instrs_begin();
-  srand( time( NULL ) );  
+  //srand( time( NULL ) );  
   unordered_map< string, string >::iterator hash_iter;
   string key   = to_string( rand() % arr_size );
   string value = random_string( num_iterations );
@@ -93,7 +93,7 @@ void hash_insert( int arr_size, int num_iterations )
 void hash_delete( int arr_size, int num_iterations )
 {
   mcsim_skip_instrs_begin();
-  srand( time( NULL ) );  
+  //srand( time( NULL ) );  
   unordered_map< string, string >::iterator hash_iter;
   string key = to_string( rand() % arr_size );
   // Checks if the hashtable contains the key
@@ -124,7 +124,7 @@ void hash_delete( int arr_size, int num_iterations )
 
 void hash_initialize( int arr_size, int num_iterations )
 {
-  srand( time( NULL ) );  
+  //srand( time( NULL ) );  
 
   unordered_map< string, string >::iterator hash_iter;
   for ( int i = 0; i < arr_size; i++ )

@@ -20,12 +20,14 @@ vector<str_pair> redo_log;
 vector<str_pair> undo_log;
 #endif // UNDOLOG
 
-string random_string( size_t length ) {
+string random_string() {
   static const char alphanum[] =
     "0123456789"
     "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     "abcdefghijklmnopqrstuvwxyz";
 
+  // Adjusts length of string to be randomly between length / 2 and length
+  int length = ( rand() % 64 ) + 64; // Generates a string length between 16 and 32 characters
   string str( length, 0 );
   for ( int i = 0; i < length; i++ ) 
   {
@@ -38,10 +40,10 @@ string random_string( size_t length ) {
 void rbtree_insert( int arr_size, int num_iterations )
 {
   mcsim_skip_instrs_begin();
-  srand( time( NULL ) );  
+  //srand( time( NULL ) );  
   map< string, string >::iterator rbtree_iter;
   string key   = to_string( rand() % arr_size );
-  string value = random_string( num_iterations );
+  string value = random_string();
   // Checks if the rbtree contains the key
   rbtree_iter = rbtree.find( key );
   mcsim_skip_instrs_end();
@@ -100,7 +102,7 @@ void rbtree_insert( int arr_size, int num_iterations )
 void rbtree_delete( int arr_size, int num_iterations )
 {
   mcsim_skip_instrs_begin();
-  srand( time( NULL ) );  
+  //srand( time( NULL ) );  
   map< string, string >::iterator rbtree_iter;
   string key = to_string( rand() % arr_size );
   // Checks if the rbtree contains the key
@@ -133,7 +135,7 @@ void rbtree_delete( int arr_size, int num_iterations )
 
 void rbtree_initialize( int arr_size, int num_iterations )
 {
-  srand( time( NULL ) );  
+  //srand( time( NULL ) );  
 
   map< string, string >::iterator rbtree_iter;
   for ( int i = 0; i < arr_size; i++ )
@@ -144,7 +146,7 @@ void rbtree_initialize( int arr_size, int num_iterations )
     // If not, insert it the key+value into the table
     if ( rbtree_iter == rbtree.end() )
     {
-      string value = random_string( num_iterations );
+      string value = random_string();
       rbtree.insert( str_pair( key, value ) );
     }
   }
