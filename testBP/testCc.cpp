@@ -1,3 +1,6 @@
+//various elt size
+
+
 #include <iostream>
 /*#include <stdio.h>*/
 /*#include <stdlib.h>*/
@@ -13,6 +16,7 @@
 int array_size = 8192;
 int * array;
 int * log;
+
 
 
 void warmup(int array_size) {
@@ -45,18 +49,23 @@ void warmup(int array_size) {
 void run(int array_size) {
 	//must call warmup first
   uint64_t start, end, tot_cycles = 0, min_cycles = uint64_t(-1);
-	int i, j;
+	int i, j, k;
 	int n, p;
+  int elt_size = 128;
 	//repeat 5 times
 	for (j = 0; j < 1; ++j) {
     //start = rdtsc();
-		for (i = 0; i < array_size; ++i) {
-			n = rand();
-			p = rand();
+		for (i = 0; i < array_size / elt_size; ++i) {
+      for (k = 0; k < elt_size; ++k)
+      {
+        n = rand();
+        p = rand();
 
-			log[2 * i] = n;
-			log[2 * i + 1] = p;
-			asm volatile("mfence");
+        log[2 * i * elt_size + k] = n;
+        log[2 * i * elt_size + k + 1] = p;
+        mcsim_mem_fence();
+      }
+//        asm volatile("mfence");
 
 //			mcsim_log_begin();
 			//log[2 * i] = n;
@@ -66,7 +75,10 @@ void run(int array_size) {
 //			mcsim_log_end();
 //			mcsim_mem_fence();
 
-			array[i] = n;
+      for (k = 0; k < elt_size; ++k)
+      {
+        array[i * elt_size + k] = n;
+      }
 		}
     //end = rdtsc();
     //tot_cycles = end - start;
