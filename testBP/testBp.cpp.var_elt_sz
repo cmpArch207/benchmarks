@@ -1,0 +1,115 @@
+//various elt size
+
+/*#include <stdio.h>*/
+/*#include <stdlib.h>*/
+#include <iostream>
+#include <emmintrin.h>
+#include <time.h>
+/*#include <unistd.h>*/
+/*#include <valgrind/callgrind.h>*/
+
+#include "helper.h"
+#include "defines.h"
+
+using namespace std;
+
+/*global variables*/
+int array_size = 8192;
+int * array;
+int * log;
+/*int * array = (int *)malloc(array_size * sizeof(int));*/
+/*int * log = (int *)malloc(2 * array_size * sizeof(int));*/
+
+
+void warmup(int array_size) {
+	array = (int *)malloc(array_size * sizeof(int));
+	log = (int *)malloc(2 * array_size * sizeof(int));
+	//int n, p;
+	//int i;
+	//for (i = 0; i < array_size; ++i) {
+	//	n = rand();
+	//	p = rand();
+
+
+	//	//_mm_stream_si32(&log[2 * i], n);
+	//	//_mm_stream_si32(&log[2 * i + 1], p);
+	//	//asm volatile("mfence");
+	//	mcsim_log_begin();
+	//	log[2 * i] = n;
+	//	log[2 * i + 1] = p;
+	//	
+	//	mcsim_mem_fence();
+	//	mcsim_log_end();
+	//	mcsim_mem_fence();
+
+	//	array[i] = n;
+	//}
+}
+
+void run(int array_size) {
+	//must call warmup first
+  uint64_t start, end, tot_cycles = 0, min_cycles = uint64_t(-1);
+	int i, j, k;
+	int n, p;
+  int elt_size = 1;
+	//repeat 5 times
+	for (j = 0; j < 1; ++j) {
+   // start = rdtsc();
+		for (i = 0; i < array_size / elt_size; ++i) {
+      for (k = 0; k < elt_size; ++k)
+      {
+        n = rand();
+        p = rand();
+
+
+//			_mm_stream_si32(&log[2 * i], n);
+//			_mm_stream_si32(&log[2 * i + 1], p);
+//			asm volatile("mfence");
+
+        mcsim_log_begin();
+        log[2 * i * elt_size + k] = n;
+        log[2 * i * elt_size + 1 + k] = p;
+        mcsim_mem_fence();
+        mcsim_log_end();
+        mcsim_mem_fence();
+
+      }
+      for (k = 0; k < elt_size; ++k)
+      {
+        array[i * elt_size + k] = n;
+      }
+		}
+    //end = rdtsc();
+    //tot_cycles = end - start;
+    //if (tot_cycles < min_cycles)
+    //  min_cycles = tot_cycles;
+	}
+
+	//printf("bypass: cycles = %lu \n", tot_cycles);
+
+}
+
+
+
+int main() {
+	srand(time(NULL));
+
+	//warmup
+	warmup(array_size);
+
+	//run
+	//CALLGRIND_START_INSTRUMENTATION;
+	run(array_size);
+	//CALLGRIND_STOP_INSTRUMENTATION;
+	//CALLGRIND_DUMP_STATS;
+
+
+	return 0;
+}
+
+
+
+		
+
+
+
