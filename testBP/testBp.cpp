@@ -51,41 +51,45 @@ void run(int array_size) {
   uint64_t start, end, tot_cycles = 0, min_cycles = uint64_t(-1);
 	int i, j, k;
 	int n, p;
-  int elt_size = 1;
 	//repeat 5 times
-	for (j = 0; j < 1; ++j) {
-   // start = rdtsc();
-		for (i = 0; i < array_size / elt_size; ++i) {
-      for (k = 0; k < elt_size; ++k)
-      {
-        n = rand();
-        p = rand();
+	for (j = 0; j < 50; ++j) {
+    start = rdtsc();
+		for (i = 0; i < array_size; ++i) {
+        //n = rand();
+        //p = rand();
+	n = 0;
+	p = 1;
 
+    //    if (i % 1024 == 0)
+    //    {
+    //      mcsim_log_begin();
+    //    }
+          log[2 * i] = n;
+          log[2 * i + 1] = p;
+    //    if (i % 1 == 0)
+    //    {
+    //      mcsim_mem_fence();
+    //      mcsim_log_end();
+    //      mcsim_mem_fence();
+    //    }
+	//		asm volatile("mfence");
 
-//			_mm_stream_si32(&log[2 * i], n);
-//			_mm_stream_si32(&log[2 * i + 1], p);
-//			asm volatile("mfence");
-
-        mcsim_log_begin();
-        log[2 * i * elt_size + k] = n;
-        log[2 * i * elt_size + 1 + k] = p;
-        mcsim_mem_fence();
-        mcsim_log_end();
-        mcsim_mem_fence();
-
-      }
-      for (k = 0; k < elt_size; ++k)
-      {
-        array[i * elt_size + k] = n;
-      }
+        //mcsim_log_begin();
+        //log[2 * i * elt_size + k] = n;
+        //log[2 * i * elt_size + 1 + k] = p;
+        //mcsim_mem_fence();
+        //mcsim_log_end();
+        //mcsim_mem_fence();
+      
+        array[i] = n;
 		}
-    //end = rdtsc();
-    //tot_cycles = end - start;
-    //if (tot_cycles < min_cycles)
-    //  min_cycles = tot_cycles;
+    end = rdtsc();
+    tot_cycles = end - start;
+    if (tot_cycles < min_cycles)
+      min_cycles = tot_cycles;
 	}
 
-	//printf("bypass: cycles = %lu \n", tot_cycles);
+	printf("bypass: cycles = %lu \n", tot_cycles);
 
 }
 
