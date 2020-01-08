@@ -1,5 +1,4 @@
-//various elt size
-
+//unsafe(w/o mem fences)
 
 #include <iostream>
 /*#include <stdio.h>*/
@@ -13,7 +12,7 @@
 #include "defines.h"
 
 /*global variables*/
-int array_size = 8192;
+int array_size = 8192 * 4;
 int * array;
 int * log;
 
@@ -52,7 +51,7 @@ void run(int array_size) {
 	int i, j, k;
 	int n, p;
 	//repeat 5 times
-	for (j = 0; j < 50; ++j) {
+	for (j = 0; j < 100; ++j) {
     start = rdtsc();
 		for (i = 0; i < array_size; ++i) {
         n = -1;
@@ -62,8 +61,10 @@ void run(int array_size) {
         {
           log[2 * i] = n;
           log[2 * i + 1] = p;
+//	  _mm_clflush(&log[2 * i]);
+//	  _mm_clflush(&log[2 * i + 1]);
         }
-        //asm volatile("mfence");
+//        asm volatile("mfence");
 
 //			mcsim_log_begin();
 			//log[2 * i] = n;
