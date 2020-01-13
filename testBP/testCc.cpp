@@ -13,7 +13,7 @@
 #include "defines.h"
 
 /*global variables*/
-int array_size = 8192 * 2;
+int array_size = 1 << 17;
 int * array;
 int * log;
 
@@ -47,15 +47,18 @@ void warmup(int array_size) {
 
 void run(int array_size) {
 	//must call warmup first
-  uint64_t start, end, tot_cycles = 0, min_cycles = uint64_t(-1);
+	uint64_t log_start, log_end, log_cycles = 0, min_log_cycles = uint64_t(-1), 
+	tot_start, tot_end, tot_cycles = 0, min_tot_cycles = uint64_t(-1);
 	int i, j, k;
 	int n, p;
 	//repeat multiple times
 	for (j = 0; j < 100; ++j) {
 		n = rand();
 		p = rand();
+		tot_start = rdtsc();
 		for (i = 0; i < array_size; ++i) {
-			start = rdtsc();
+		//	tot_start = rdtsc();
+			log_start = rdtsc();
 			//n = -1;
 			//p = -2;
 
@@ -63,14 +66,16 @@ void run(int array_size) {
 			{
 			  log[2 * i] = n;
 			  log[2 * i + 1] = p;
+//			  _mm_clflush(&log[2 * i]);
+//			  _mm_clflush(&log[2 * i + 1]);
 			  _mm_clflush(&log[2 * i]);
 			  _mm_clflush(&log[2 * i + 1]);
 			}
 			asm volatile("sfence");
-			end = rdtsc();
-			tot_cycles = end - start;
-			if (tot_cycles < min_cycles)
-				min_cycles = tot_cycles;
+			log_end = rdtsc();
+			log_cycles = log_end - log_start;
+			if (log_cycles < min_log_cycles)
+				min_log_cycles = log_cycles;
 
 //			mcsim_log_begin();
 			//log[2 * i] = n;
@@ -81,10 +86,19 @@ void run(int array_size) {
 //			mcsim_mem_fence();
 
 			array[i] = n;
+			//tot_end = rdtsc();
+			//tot_cycles = tot_end - tot_start;
+			//if (tot_cycles < min_tot_cycles)
+			//	min_tot_cycles = tot_cycles;
 		}
+		tot_end = rdtsc();
+		tot_cycles = tot_end - tot_start;
+		if (tot_cycles < min_tot_cycles)
+			min_tot_cycles = tot_cycles;
 	}
 
-	printf("cached: cycles = %lu \n", tot_cycles);
+	printf("cached: log_cycles = %lu \n", min_log_cycles);
+	printf("cached: tot_cycles = %lu \n", min_tot_cycles);
 
 }
 

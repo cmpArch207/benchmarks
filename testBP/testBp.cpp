@@ -14,11 +14,9 @@
 using namespace std;
 
 /*global variables*/
-int array_size = 1 << 21;
+int array_size = 1 << 17;
 int * array;
 int * log;
-/*int * array = (int *)malloc(array_size * sizeof(int));*/
-/*int * log = (int *)malloc(2 * array_size * sizeof(int));*/
 
 
 void warmup(int array_size) {
@@ -48,37 +46,40 @@ void warmup(int array_size) {
 
 void run(int array_size) {
 	//must call warmup first
-  uint64_t start, end, tot_cycles = 0, min_cycles = uint64_t(-1);
+	uint64_t log_start, log_end, log_cycles = 0, min_log_cycles = uint64_t(-1), 
+	tot_start, tot_end, tot_cycles = 0, min_tot_cycles = uint64_t(-1);
 	int i, j, k;
 	int n, p;
 	//repeat multiple times
 	for (j = 0; j < 100; ++j) {
 		n = rand();
 		p = rand();
+		tot_start = rdtsc();
 		for (i = 0; i < array_size; ++i) {
-			start = rdtsc();
+			//tot_start = rdtsc();
+			log_start = rdtsc();
 			//	n = 0;
 			//	p = 1;
 
-	    //    if (i % 1024 == 0)
-	    //    {
-	    //      mcsim_log_begin();
-	    //    }
-	    //      log[2 * i] = n;
-	    //      log[2 * i + 1] = p;
+		    //    if (i % 1024 == 0)
+		    //    {
+		    //      mcsim_log_begin();
+		    //    }
+		    //      log[2 * i] = n;
+		    //      log[2 * i + 1] = p;
 			_mm_stream_si32(&log[2 * i], n);
 			_mm_stream_si32(&log[2 * i + 1], p);
-	    //    if (i % 1 == 0)
-	    //    {
-	    //      mcsim_mem_fence();
-	    //      mcsim_log_end();
-	    //      mcsim_mem_fence();
-	    //    }
+		    //    if (i % 1 == 0)
+		    //    {
+		    //      mcsim_mem_fence();
+		    //      mcsim_log_end();
+		    //      mcsim_mem_fence();
+		    //    }
 			asm volatile("sfence");
-			end = rdtsc();
-			tot_cycles = end - start;
-			if (tot_cycles < min_cycles)
-				min_cycles = tot_cycles;
+			log_end = rdtsc();
+			log_cycles = log_end - log_start;
+			if (log_cycles < min_log_cycles)
+				min_log_cycles = log_cycles;
 
 			//mcsim_log_begin();
 			//log[2 * i * elt_size + k] = n;
@@ -88,10 +89,19 @@ void run(int array_size) {
 			//mcsim_mem_fence();
 	      
 			array[i] = n;
+			//tot_end = rdtsc();
+			//tot_cycles = tot_end - tot_start;
+			//if (tot_cycles < min_tot_cycles)
+			//	min_tot_cycles = tot_cycles;
 		}
+		tot_end = rdtsc();
+		tot_cycles = tot_end - tot_start;
+		if (tot_cycles < min_tot_cycles)
+			min_tot_cycles = tot_cycles;
 	}
 
-	printf("bypass: cycles = %lu \n", tot_cycles);
+	printf("bypass: log_cycles = %lu \n", min_log_cycles);
+	printf("bypass: tot_cycles = %lu \n", min_tot_cycles);
 
 }
 
