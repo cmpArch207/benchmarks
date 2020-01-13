@@ -12,7 +12,7 @@
 #include "defines.h"
 
 /*global variables*/
-int array_size = 8192 * 8;
+int array_size = 1 << 21;
 int * array;
 int * log;
 

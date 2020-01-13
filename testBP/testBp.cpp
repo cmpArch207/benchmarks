@@ -1,4 +1,4 @@
-//unsafe(w/o mem fences)
+//various elt size
 
 /*#include <stdio.h>*/
 /*#include <stdlib.h>*/
@@ -14,7 +14,7 @@
 using namespace std;
 
 /*global variables*/
-int array_size = 8192 * 4;
+int array_size = 1 << 21;
 int * array;
 int * log;
 /*int * array = (int *)malloc(array_size * sizeof(int));*/
@@ -24,26 +24,26 @@ int * log;
 void warmup(int array_size) {
 	array = (int *)malloc(array_size * sizeof(int));
 	log = (int *)malloc(2 * array_size * sizeof(int));
-	//int n, p;
-	//int i;
-	//for (i = 0; i < array_size; ++i) {
-	//	n = rand();
-	//	p = rand();
+	int n, p;
+	int i;
+	n = rand();
+	p = rand();
+	for (i = 0; i < array_size; ++i) {
 
 
-	//	//_mm_stream_si32(&log[2 * i], n);
-	//	//_mm_stream_si32(&log[2 * i + 1], p);
-	//	//asm volatile("mfence");
+		_mm_stream_si32(&log[2 * i], n);
+		_mm_stream_si32(&log[2 * i + 1], p);
+		asm volatile("sfence");
 	//	mcsim_log_begin();
-	//	log[2 * i] = n;
-	//	log[2 * i + 1] = p;
-	//	
+//		log[2 * i] = n;
+//		log[2 * i + 1] = p;
+		
 	//	mcsim_mem_fence();
 	//	mcsim_log_end();
 	//	mcsim_mem_fence();
 
-	//	array[i] = n;
-	//}
+		array[i] = n;
+	}
 }
 
 void run(int array_size) {
@@ -51,44 +51,44 @@ void run(int array_size) {
   uint64_t start, end, tot_cycles = 0, min_cycles = uint64_t(-1);
 	int i, j, k;
 	int n, p;
-	//repeat 5 times
+	//repeat multiple times
 	for (j = 0; j < 100; ++j) {
-    start = rdtsc();
+		n = rand();
+		p = rand();
 		for (i = 0; i < array_size; ++i) {
-        //n = rand();
-        //p = rand();
-	n = 0;
-	p = 1;
+			start = rdtsc();
+			//	n = 0;
+			//	p = 1;
 
-    //    if (i % 1024 == 0)
-    //    {
-    //      mcsim_log_begin();
-    //    }
-    //      log[2 * i] = n;
-    //      log[2 * i + 1] = p;
-		_mm_stream_si32(&log[2 * i], n);
-		_mm_stream_si32(&log[2 * i + 1], p);
-    //    if (i % 1 == 0)
-    //    {
-    //      mcsim_mem_fence();
-    //      mcsim_log_end();
-    //      mcsim_mem_fence();
-    //    }
-//			asm volatile("mfence");
+	    //    if (i % 1024 == 0)
+	    //    {
+	    //      mcsim_log_begin();
+	    //    }
+	    //      log[2 * i] = n;
+	    //      log[2 * i + 1] = p;
+			_mm_stream_si32(&log[2 * i], n);
+			_mm_stream_si32(&log[2 * i + 1], p);
+	    //    if (i % 1 == 0)
+	    //    {
+	    //      mcsim_mem_fence();
+	    //      mcsim_log_end();
+	    //      mcsim_mem_fence();
+	    //    }
+			asm volatile("sfence");
+			end = rdtsc();
+			tot_cycles = end - start;
+			if (tot_cycles < min_cycles)
+				min_cycles = tot_cycles;
 
-        //mcsim_log_begin();
-        //log[2 * i * elt_size + k] = n;
-        //log[2 * i * elt_size + 1 + k] = p;
-        //mcsim_mem_fence();
-        //mcsim_log_end();
-        //mcsim_mem_fence();
-      
-        array[i] = n;
+			//mcsim_log_begin();
+			//log[2 * i * elt_size + k] = n;
+			//log[2 * i * elt_size + 1 + k] = p;
+			//mcsim_mem_fence();
+			//mcsim_log_end();
+			//mcsim_mem_fence();
+	      
+			array[i] = n;
 		}
-    end = rdtsc();
-    tot_cycles = end - start;
-    if (tot_cycles < min_cycles)
-      min_cycles = tot_cycles;
 	}
 
 	printf("bypass: cycles = %lu \n", tot_cycles);

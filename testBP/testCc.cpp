@@ -1,4 +1,5 @@
-//unsafe(w/o mem fences)
+//various elt size
+
 
 #include <iostream>
 /*#include <stdio.h>*/
@@ -12,7 +13,7 @@
 #include "defines.h"
 
 /*global variables*/
-int array_size = 8192 * 4;
+int array_size = 8192 * 2;
 int * array;
 int * log;
 
@@ -21,28 +22,27 @@ int * log;
 void warmup(int array_size) {
 	array = (int *)malloc(array_size * sizeof(int));
 	log = (int *)malloc(2 * array_size * sizeof(int));
-//	int i;
-//	int n, p, n1;
-//	for (i = 0; i < array_size; ++i) {
-//		n = rand();
-//		p = rand();
-//
-//		//n1 = rand();
-//
-//		log[2 * i] = n;
-//		log[2 * i + 1] = p;
-//		asm volatile("mfence");
-//
-////		mcsim_log_begin();
-//		//log[2 * i] = n;
-//		//log[2 * i + 1] = p;
-//		
-////		mcsim_mem_fence();
-////		mcsim_log_end();
-////		mcsim_mem_fence();
-//
-//		array[i] = n;
-//	}
+	int i;
+	int n, p;
+	n = rand();
+	p = rand();
+	for (i = 0; i < array_size; ++i) {
+
+
+		log[2 * i] = n;
+		log[2 * i + 1] = p;
+		asm volatile("sfence");
+
+//		mcsim_log_begin();
+		//log[2 * i] = n;
+		//log[2 * i + 1] = p;
+		
+//		mcsim_mem_fence();
+//		mcsim_log_end();
+//		mcsim_mem_fence();
+
+		array[i] = n;
+	}
 }
 
 void run(int array_size) {
@@ -50,21 +50,27 @@ void run(int array_size) {
   uint64_t start, end, tot_cycles = 0, min_cycles = uint64_t(-1);
 	int i, j, k;
 	int n, p;
-	//repeat 5 times
+	//repeat multiple times
 	for (j = 0; j < 100; ++j) {
-    start = rdtsc();
+		n = rand();
+		p = rand();
 		for (i = 0; i < array_size; ++i) {
-        n = -1;
-        p = -2;
+			start = rdtsc();
+			//n = -1;
+			//p = -2;
 
-        //if (i % 1 != 0)
-        {
-          log[2 * i] = n;
-          log[2 * i + 1] = p;
-//	  _mm_clflush(&log[2 * i]);
-//	  _mm_clflush(&log[2 * i + 1]);
-        }
-//        asm volatile("mfence");
+			//if (i % 1 != 0)
+			{
+			  log[2 * i] = n;
+			  log[2 * i + 1] = p;
+			  _mm_clflush(&log[2 * i]);
+			  _mm_clflush(&log[2 * i + 1]);
+			}
+			asm volatile("sfence");
+			end = rdtsc();
+			tot_cycles = end - start;
+			if (tot_cycles < min_cycles)
+				min_cycles = tot_cycles;
 
 //			mcsim_log_begin();
 			//log[2 * i] = n;
@@ -74,12 +80,8 @@ void run(int array_size) {
 //			mcsim_log_end();
 //			mcsim_mem_fence();
 
-        array[i] = n;
+			array[i] = n;
 		}
-    end = rdtsc();
-    tot_cycles = end - start;
-    if (tot_cycles < min_cycles)
-      min_cycles = tot_cycles;
 	}
 
 	printf("cached: cycles = %lu \n", tot_cycles);
