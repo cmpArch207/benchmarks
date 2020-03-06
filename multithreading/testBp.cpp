@@ -4,6 +4,7 @@
 /*#include <stdlib.h>*/
 #include <iostream>
 #include <emmintrin.h>
+#include <immintrin.h>
 #include <time.h>
 /*#include <unistd.h>*/
 /*#include <valgrind/callgrind.h>*/
@@ -21,20 +22,28 @@ int array_size = workload >> 2; //# of elts of this workload
 int tx_size = 128 >> 2; 		//# of elts in ea tx
 int * Array;
 int * log;
+int * pos;
 
+static void clwb(unsigned long long addr)
+{
+	__asm__ volatile("clwb %0" :: "m" (*(char*)addr));
+//	__asm__ volatile("clwb %0" :: "m" (addr));
+}
 
 void warmup(int array_size) {
 	Array = (int *)malloc(array_size * sizeof(int));
+	pos = (int *)malloc(array_size * sizeof(int));
 	log = (int *)malloc(2 * array_size * sizeof(int));
 	int i;
 	int n, p;
 	n = rand();
-	p = rand();
+	p = rand() % array_size;
 	for (i = 0; i < array_size; ++i) {
 		log[2 * i] = n;
 		log[2 * i + 1] = p;
 		asm volatile("sfence");
 
+		pos[i] = p;
 		Array[i] = n;
 	}
 }
@@ -70,7 +79,9 @@ void run_seq_redo(int array_size) { //run it sequantially, redo log
 			for (j = 0; j < tx_size; ++j)
 			{
 				Array[i * tx_size + j] = n;
+				clwb((unsigned long long )&Array[i * tx_size + j]);
 			}
+			asm volatile("sfence");
 		}
 		tot_end = rdtsc();
 		tot_cycles = tot_end - tot_start;
@@ -83,6 +94,50 @@ void run_seq_redo(int array_size) { //run it sequantially, redo log
 }
 
 
+void run_rand_redo(int array_size) { //run it randomly, redo log
+	//must call warmup first
+	uint64_t log_start, log_end, log_cycles = 0, min_log_cycles = uint64_t(-1), 
+	tot_start, tot_end, tot_cycles = 0, min_tot_cycles = uint64_t(-1);
+	int i, j, k, times;
+	int n, p;
+	//int elt_size = 1;
+	//repeat multiple times
+	for (times = 0; times < 100; ++times) {
+		n = rand();
+		p = rand();
+		tot_start = rdtsc();
+		for (i = 0; i < array_size / tx_size; ++i) {
+//			log_start = rdtsc();
+
+			//System::profile("log", [&]() {
+			for (j = 0; j < tx_size; ++j)
+			{
+				_mm_stream_si32(&log[2 * i * tx_size + j + 0], n);
+				_mm_stream_si32(&log[2 * i * tx_size + j + 1], p);
+			}
+			asm volatile("sfence");
+			//});
+	//			log_end = rdtsc();
+	//			log_cycles = log_end - log_start;
+	//			if (log_cycles < min_log_cycles)
+	//				min_log_cycles = log_cycles;
+
+			for (j = 0; j < tx_size; ++j)
+			{
+				Array[pos[i * tx_size + j]] = n;
+				clwb((unsigned long long )&Array[pos[i * tx_size + j]]);
+			}
+			asm volatile("sfence");
+		}
+		tot_end = rdtsc();
+		tot_cycles = tot_end - tot_start;
+		if (tot_cycles < min_tot_cycles)
+			min_tot_cycles = tot_cycles;
+	}
+
+//	printf("bypass: log_cycles = %lu \n", min_log_cycles);
+	printf("bypass: tot_cycles = %lu \n", min_tot_cycles);
+}
 
 int main() {
 	srand(time(NULL));
@@ -91,7 +146,8 @@ int main() {
 	warmup(array_size);
 
 	//CALLGRIND_START_INSTRUMENTATION;
-	run_seq_redo(array_size);
+	//run_seq_redo(array_size);
+	run_rand_redo(array_size);
 	//CALLGRIND_STOP_INSTRUMENTATION;
 	//CALLGRIND_DUMP_STATS;
 
